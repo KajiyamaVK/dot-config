@@ -1,0 +1,1 @@
+/home/kajiyamavk/src/My-Config-Files/zsh/global.zsh

@@ -1,0 +1,18 @@
+# 1. Ignore everything in the root directory
+/*
+
+# 2. Whitelist (! means "do not ignore") the specific file
+!.zshrc
+!.gitignore
+
+# 3. Handle the .config folder
+# A. Un-ignore the folder itself so git looks inside
+!.config/
+# B. Ignore everything inside .config (so you don't track unwanted configs)
+.config/*
+# C. Whitelist the specific subfolders (must come after step B)
+!.config/alacritty/
+!.config/nvim/
+!.config/rofi/
+!.config/warp-terminal/
+!.config/zsh/
