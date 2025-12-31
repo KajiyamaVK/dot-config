@@ -1,1 +1,6 @@
-/home/kajiyamavk/src/My-Config-Files/zsh/config.zsh
+
+# Theme
+ZSH_THEME="nanotech"
+
+# PLUGINS
+plugins=(zsh-autosuggestions zsh-syntax-highlighting you-should-use dircycle)
