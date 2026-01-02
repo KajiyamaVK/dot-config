@@ -1,0 +1,10 @@
+streams:
+  # Use a URL exata que o script te deu
+  sala: rtsp://192.168.2.5:554/user=sala_password=w25JVsMW_channel=0_stream=0&onvif=0.sdp?real_stream
+  edicula: rtsp://192.168.2.4:554/user=admin_password=tlJwpbo6_channel=0_stream=0&onvif=0.sdp?real_stream
+  garagem: rtsp://192.168.2.64:554/user=garagem_password=w25JVsMW_channel=0_stream=0&onvif=0.sdp?real_stream
+  # Repita o processo do script para a outra câmera (.4) e adicione aqui
+  # cozinha: rtsp://...
+
+webrtc:
+  listen: ":8555"

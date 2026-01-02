@@ -1,0 +1,11 @@
+services:
+  go2rtc:
+    image: alexxit/go2rtc
+    container_name: go2rtc
+    network_mode: host # Crucial para baixa latência e WebRTC
+    privileged: true
+    restart: always
+    volumes:
+      - ./go2rtc.yaml:/config/go2rtc.yaml
+    environment:
+      - TZ=America/Sao_Paulo
