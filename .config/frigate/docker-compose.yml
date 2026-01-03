@@ -28,3 +28,9 @@ services:
       - "8554:8554"
       - "8555:8555/tcp"
       - "8555:8555/udp"
+    networks:
+      - proxy-net
+
+networks:
+  proxy-net:
+    external: true
