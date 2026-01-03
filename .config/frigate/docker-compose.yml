@@ -1,0 +1,30 @@
+services:
+  frigate:
+    container_name: frigate
+    privileged: true
+    restart: unless-stopped
+    # optimize for NVIDIA GPUs
+    image: ghcr.io/blakeblackshear/frigate:stable-tensorrt
+    shm_size: "256mb"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ~/.config/frigate/config.yml:/config/config.yml
+      - ~/.config/frigate/storage:/media/frigate
+      - ~/.config/frigate/model_cache:/config/model_cache
+      - type: tmpfs
+        target: /tmp/cache
+        tmpfs:
+          size: 1000000000
+    ports:
+      - "5000:5000"
+      - "1984:1984"
+      - "8554:8554"
+      - "8555:8555/tcp"
+      - "8555:8555/udp"

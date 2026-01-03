@@ -1,9 +1,0 @@
-
-services:
-  cloudflared:
-    image: cloudflare/cloudflared:latest
-    container_name: cloudflared
-    restart: unless-stopped
-    environment:
-      - TUNNEL_TOKEN=eyJhIjoiMjE5N2QzZDRkODg3MzRkNzBjYjI1ODg5Yjk5Yzk3ODIiLCJ0IjoiNTUzZDcwMDAtMWM4Yy00NTM2LWE3M2EtOWE2M2NlOTVhYWRjIiwicyI6Ik5XUXpNR0ZrWWpndE5tSmxaUzAwT0dKaExUZ3pNREF0TnpVelkySXdaVGhsWkdZMCJ9
-    command: tunnel run
