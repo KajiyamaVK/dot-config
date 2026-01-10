@@ -1,9 +1,6 @@
 mqtt:
   enabled: false
 
-# -----------------------------------------------------------
-# GLOBAL MODEL CONFIGURATION
-# -----------------------------------------------------------
 model:
   path: /config/model_cache/yolov8n.onnx
   model_type: yolo-generic
@@ -15,69 +12,79 @@ model:
   labelmap:
     0: person
 
-# -----------------------------------------------------------
-# DETECTOR HARDWARE
-# -----------------------------------------------------------
 detectors:
   nvidia:
     type: onnx
     device: auto
 
 # -----------------------------------------------------------
-# STREAMS (TCP Added for Stability)
+# STREAMS
 # -----------------------------------------------------------
 go2rtc:
   api:
     listen: ":1984"
   streams:
+    # We use the URL that YOU CONFIRMED works (Option A)
     sala: 
-      - rtsp://192.168.2.5:554/user=sala_password=w25JVsMW_channel=0_stream=0&onvif=0.sdp?real_stream&transport=tcp
+      - "rtsp://192.168.0.21:554/user=admin_password=tlJwpbo6_channel=0_stream=0.sdp?real_stream&transport=tcp"
       - "ffmpeg:sala#audio=aac"
-    edicula: "rtsp://192.168.2.4:554/user=admin_password=tlJwpbo6_channel=0_stream=0&onvif=0.sdp?real_stream&transport=tcp"
-    garagem: "rtsp://192.168.2.64:554/user=garagem_password=w25JVsMW_channel=0_stream=0&onvif=0.sdp?real_stream&transport=tcp"
-
+    
+    # Sub-stream for detection (stream=1)
+    sala_sub: 
+      - "rtsp://192.168.0.21:554/user=admin_password=tlJwpbo6_channel=0_stream=1.sdp?real_stream&transport=tcp"   
 cameras:
+  # -------------------------------------------------------
+  # SALA
+  # -------------------------------------------------------
   sala:
     ffmpeg:
       inputs:
-        - path: rtsp://127.0.0.1:8554/sala
+        # High Res Stream (Recording)
+        - path: rtsp://127.0.0.1:8554/sala?video=copy
           input_args: preset-rtsp-restream
           roles:
             - record
+        # Low Res Stream (Detection)
+        - path: rtsp://127.0.0.1:8554/sala_sub?video=copy
+          input_args: preset-rtsp-restream
+          roles:
             - detect
     detect:
-      width: 1920
-      height: 1080
+      width: 640  # Standard sub-stream width
+      height: 360 # If the image looks stretched/squished, try 480
       fps: 5
       enabled: true
 
-  edicula:
-    ffmpeg:
-      inputs:
-        - path: rtsp://127.0.0.1:8554/edicula?video=copy
-          input_args: preset-rtsp-restream
-          roles:
-            - record
-            - detect
-    detect:
-      width: 1920
-      height: 1080
-      fps: 5
-      enabled: true
+  # -------------------------------------------------------
+  # OTHER CAMS (Commented Out)
+  # -------------------------------------------------------
+  # edicula:
+  #   ffmpeg:
+  #     inputs:
+  #       - path: rtsp://127.0.0.1:8554/edicula?video=copy
+  #         input_args: preset-rtsp-restream
+  #         roles:
+  #           - record
+  #           - detect
+  #   detect:
+  #     width: 1920
+  #     height: 1080
+  #     fps: 5
+  #     enabled: true
 
-  garagem:
-    ffmpeg:
-      inputs:
-        - path: rtsp://127.0.0.1:8554/garagem?video=copy
-          input_args: preset-rtsp-restream
-          roles:
-            - record
-            - detect
-    detect:
-      width: 1920
-      height: 1080
-      fps: 5
-      enabled: true
+  # garagem:
+  #   ffmpeg:
+  #     inputs:
+  #       - path: rtsp://127.0.0.1:8554/garagem?video=copy
+  #         input_args: preset-rtsp-restream
+  #         roles:
+  #           - record
+  #           - detect
+  #   detect:
+  #     width: 1920
+  #     height: 1080
+  #     fps: 5
+  #     enabled: true
 
 record:
   enabled: true

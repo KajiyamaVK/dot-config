@@ -16,9 +16,9 @@ services:
               capabilities: [gpu]
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ~/.config/frigate/config.yml:/config/config.yml
-      - ~/.config/frigate/storage:/media/frigate
-      - ~/.config/frigate/model_cache:/config/model_cache
+      - ./config.yml:/config/config.yml:ro      # <--- CHANGED
+      - ./storage:/media/frigate                  # <--- CHANGED
+      - ./model_cache:/config/model_cache         # <--- CHANGED
       - type: tmpfs
         target: /tmp/cache
         tmpfs:
