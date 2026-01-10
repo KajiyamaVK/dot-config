@@ -24,67 +24,75 @@ go2rtc:
   api:
     listen: ":1984"
   streams:
-    # We use the URL that YOU CONFIRMED works (Option A)
-    sala: 
-      - "rtsp://192.168.0.21:554/user=admin_password=tlJwpbo6_channel=0_stream=0.sdp?real_stream&transport=tcp"
-      - "ffmpeg:sala#audio=aac"
-    
-    # Sub-stream for detection (stream=1)
-    sala_sub: 
-      - "rtsp://192.168.0.21:554/user=admin_password=tlJwpbo6_channel=0_stream=1.sdp?real_stream&transport=tcp"   
+
+    # --- CAM 13 ---
+    cam_13_h265:
+      - "rtsp://192.168.0.13:554/user=admin_password=tlJwpbo6_channel=0_stream=0&onvif=0.sdp?real_stream&transport=tcp#audio=aac"
+    cam_13_sub:
+      - "rtsp://192.168.0.13:554/user=admin_password=tlJwpbo6_channel=0_stream=1&onvif=0.sdp?real_stream&transport=tcp#video=h264#audio=aac"
+    cam_13:
+      # Transcode to H.264 using NVIDIA hardware acceleration
+      - "ffmpeg:cam_13_h265#video=h264#hardware=cuda"
+
+    # --- CAM 21 ---
+    cam_21_h265:
+      - "rtsp://192.168.0.21:554/user=admin_password=tlJwpbo6_channel=0_stream=0&onvif=0.sdp?real_stream&transport=tcp#audio=aac"
+    cam_21_sub:
+      - "rtsp://192.168.0.21:554/user=admin_password=tlJwpbo6_channel=0_stream=1&onvif=0.sdp?real_stream&transport=tcp#video=h264#audio=aac"
+    cam_21:
+      - "ffmpeg:cam_21_h265#video=h264#hardware=cuda"
+
+    # --- CAM 19 ---
+    cam_19_h265:
+      - "rtsp://192.168.0.19:554/user=admin_password=tlJwpbo6_channel=0_stream=0&onvif=0.sdp?real_stream&transport=tcp#audio=aac"
+    cam_19_sub:
+      - "rtsp://192.168.0.19:554/user=admin_password=tlJwpbo6_channel=0_stream=1&onvif=0.sdp?real_stream&transport=tcp#video=h264#audio=aac"
+    cam_19:
+      - "ffmpeg:cam_19_h265#video=h264#hardware=cuda"
+
 cameras:
-  # -------------------------------------------------------
-  # SALA
-  # -------------------------------------------------------
-  sala:
+
+  cam_13:
     ffmpeg:
       inputs:
-        # High Res Stream (Recording)
-        - path: rtsp://127.0.0.1:8554/sala?video=copy
-          input_args: preset-rtsp-restream
-          roles:
-            - record
-        # Low Res Stream (Detection)
-        - path: rtsp://127.0.0.1:8554/sala_sub?video=copy
-          input_args: preset-rtsp-restream
-          roles:
-            - detect
+      # CHANGED: Record from the transcoded 'cam_13' stream
+      - path: rtsp://127.0.0.1:8554/cam_13?video=copy
+        roles: [record]
+      - path: rtsp://127.0.0.1:8554/cam_13_sub?video=copy
+        roles: [detect]
     detect:
-      width: 640  # Standard sub-stream width
-      height: 360 # If the image looks stretched/squished, try 480
-      fps: 5
       enabled: true
+      width: 640
+      height: 360
+      fps: 5
 
-  # -------------------------------------------------------
-  # OTHER CAMS (Commented Out)
-  # -------------------------------------------------------
-  # edicula:
-  #   ffmpeg:
-  #     inputs:
-  #       - path: rtsp://127.0.0.1:8554/edicula?video=copy
-  #         input_args: preset-rtsp-restream
-  #         roles:
-  #           - record
-  #           - detect
-  #   detect:
-  #     width: 1920
-  #     height: 1080
-  #     fps: 5
-  #     enabled: true
+  cam_21:
+    ffmpeg:
+      inputs:
+      # CHANGED: Record from the transcoded 'cam_21' stream
+      - path: rtsp://127.0.0.1:8554/cam_21?video=copy
+        roles: [record]
+      - path: rtsp://127.0.0.1:8554/cam_21_sub?video=copy
+        roles: [detect]
+    detect:
+      enabled: true
+      width: 640
+      height: 360
+      fps: 5
 
-  # garagem:
-  #   ffmpeg:
-  #     inputs:
-  #       - path: rtsp://127.0.0.1:8554/garagem?video=copy
-  #         input_args: preset-rtsp-restream
-  #         roles:
-  #           - record
-  #           - detect
-  #   detect:
-  #     width: 1920
-  #     height: 1080
-  #     fps: 5
-  #     enabled: true
+  cam_19:
+    ffmpeg:
+      inputs:
+      # CHANGED: Record from the transcoded 'cam_19' stream
+      - path: rtsp://127.0.0.1:8554/cam_19?video=copy
+        roles: [record]
+      - path: rtsp://127.0.0.1:8554/cam_19_sub?video=copy
+        roles: [detect]
+    detect:
+      enabled: true
+      width: 640
+      height: 360
+      fps: 5
 
 record:
   enabled: true
@@ -97,4 +105,3 @@ snapshots:
 
 detect:
   enabled: true
-version: 0.16-0
