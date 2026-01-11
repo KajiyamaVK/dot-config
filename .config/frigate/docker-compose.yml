@@ -6,14 +6,15 @@ services:
     restart: unless-stopped
     # optimize for NVIDIA GPUs
     image: ghcr.io/blakeblackshear/frigate:stable-tensorrt
-    shm_size: "256mb"
+    shm_size: "1gb"
+    network_mode: host
     deploy:
       resources:
         reservations:
           devices:
             - driver: nvidia
               count: 1
-              capabilities: [gpu]
+              capabilities: [gpu, compute, video]
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ./config.yml:/config/config.yml:ro      # <--- CHANGED
@@ -23,15 +24,3 @@ services:
         target: /tmp/cache
         tmpfs:
           size: 1000000000
-    ports:
-      - "5000:5000"
-      - "1984:1984"
-      - "8554:8554"
-      - "8555:8555/tcp"
-      - "8555:8555/udp"
-    networks:
-      - proxy-net
-
-networks:
-  proxy-net:
-    external: true

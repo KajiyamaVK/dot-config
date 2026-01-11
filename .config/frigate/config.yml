@@ -1,37 +1,37 @@
 mqtt:
   enabled: false
 
-model:
-  path: /config/model_cache/yolov8n.onnx
-  model_type: yolo-generic
-  width: 640
-  height: 640
-  input_tensor: nchw
-  input_pixel_format: rgb
-  input_dtype: float
-  labelmap:
-    0: person
-
+# -----------------------------------------------------------
+# DETECTOR
+# Usamos 'onnx' com device 'auto'. O container tensorrt
+# irá automaticamente mapear isso para a sua GPU NVIDIA.
+# -----------------------------------------------------------
 detectors:
   nvidia:
     type: onnx
     device: auto
 
 # -----------------------------------------------------------
-# STREAMS
+# FACE RECOGNITION
+# Apenas ativado. Deixamos os padrões do sistema para evitar
+# erros de parâmetros desconhecidos.
+# -----------------------------------------------------------
+face_recognition:
+  enabled: true
+
+# -----------------------------------------------------------
+# STREAMS (go2rtc)
 # -----------------------------------------------------------
 go2rtc:
   api:
     listen: ":1984"
   streams:
-
     # --- CAM 13 ---
     cam_13_h265:
       - "rtsp://192.168.0.13:554/user=admin_password=tlJwpbo6_channel=0_stream=0&onvif=0.sdp?real_stream&transport=tcp#audio=aac"
     cam_13_sub:
       - "rtsp://192.168.0.13:554/user=admin_password=tlJwpbo6_channel=0_stream=1&onvif=0.sdp?real_stream&transport=tcp#video=h264#audio=aac"
     cam_13:
-      # Transcode to H.264 using NVIDIA hardware acceleration
       - "ffmpeg:cam_13_h265#video=h264#hardware=cuda"
 
     # --- CAM 21 ---
@@ -50,12 +50,13 @@ go2rtc:
     cam_19:
       - "ffmpeg:cam_19_h265#video=h264#hardware=cuda"
 
+# -----------------------------------------------------------
+# CÂMERAS
+# -----------------------------------------------------------
 cameras:
-
   cam_13:
     ffmpeg:
       inputs:
-      # CHANGED: Record from the transcoded 'cam_13' stream
       - path: rtsp://127.0.0.1:8554/cam_13?video=copy
         roles: [record]
       - path: rtsp://127.0.0.1:8554/cam_13_sub?video=copy
@@ -65,11 +66,13 @@ cameras:
       width: 640
       height: 360
       fps: 5
+    objects:
+      track:
+        - person
 
   cam_21:
     ffmpeg:
       inputs:
-      # CHANGED: Record from the transcoded 'cam_21' stream
       - path: rtsp://127.0.0.1:8554/cam_21?video=copy
         roles: [record]
       - path: rtsp://127.0.0.1:8554/cam_21_sub?video=copy
@@ -79,11 +82,13 @@ cameras:
       width: 640
       height: 360
       fps: 5
+    objects:
+      track:
+        - person
 
   cam_19:
     ffmpeg:
       inputs:
-      # CHANGED: Record from the transcoded 'cam_19' stream
       - path: rtsp://127.0.0.1:8554/cam_19?video=copy
         roles: [record]
       - path: rtsp://127.0.0.1:8554/cam_19_sub?video=copy
@@ -93,6 +98,9 @@ cameras:
       width: 640
       height: 360
       fps: 5
+    objects:
+      track:
+        - person
 
 record:
   enabled: true
