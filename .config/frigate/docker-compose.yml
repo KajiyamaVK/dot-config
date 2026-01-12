@@ -7,7 +7,8 @@ services:
     # optimize for NVIDIA GPUs
     image: ghcr.io/blakeblackshear/frigate:stable-tensorrt
     shm_size: "1gb"
-    network_mode: host
+    networks:
+      - proxy-net
     deploy:
       resources:
         reservations:
@@ -17,10 +18,8 @@ services:
               capabilities: [gpu, compute, video]
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ./config.yml:/config/config.yml:ro      # <--- CHANGED
-      - ./storage:/media/frigate                  # <--- CHANGED
-      - ./model_cache:/config/model_cache         # <--- CHANGED
-      - type: tmpfs
-        target: /tmp/cache
-        tmpfs:
-          size: 1000000000
+      - ./:/config             # Mapeia sua pasta local .config/frigate para o container
+      - ./storage:/media/frigate
+networks:
+  proxy-net:
+    external: true

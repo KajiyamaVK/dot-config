@@ -136,3 +136,49 @@
   "FlowTenant": "cit"
 }
 [2026-01-03T14:22:56.532Z] [DEBUG] GET request completed in 837ms with status: 401
+[2026-01-12T08:41:17.074Z] [INFO] Logger started at 2026-01-12T08:41:17.074Z
+[2026-01-12T08:41:17.074Z] [INFO] Logger file size 13791 bytes
+[2026-01-12T08:41:17.074Z] [INFO] Logger max file size 2097152 bytes
+[2026-01-12T08:41:17.075Z] [INFO] Initializing Flow authentication manager
+[2026-01-12T08:41:17.075Z] [DEBUG] FLOW_TOKEN environment variable found
+[2026-01-12T08:41:17.075Z] [DEBUG] Attempting to decode JWT token
+[2026-01-12T08:41:17.075Z] [INFO] User authenticated successfully
+[2026-01-12T08:41:17.075Z] [DEBUG] Authentication data initialized successfully
+[2026-01-12T08:41:17.076Z] [DEBUG] Initialized FlowApiClient for resource: agent-runner-api
+[2026-01-12T08:41:17.076Z] [DEBUG] Base URL configured as: https://flow.ciandt.com/agent-runner-api
+[2026-01-12T08:41:17.076Z] [DEBUG] Initialized FlowApiClient for resource: channels-service
+[2026-01-12T08:41:17.076Z] [DEBUG] Base URL configured as: https://flow.ciandt.com/channels-service
+[2026-01-12T08:41:17.076Z] [DEBUG] Initialized FlowApiClient for resource: user-api
+[2026-01-12T08:41:17.076Z] [DEBUG] Base URL configured as: https://flow.ciandt.com/user-api
+[2026-01-12T08:41:17.076Z] [INFO] Starting CI&T Flow MCP Server in function toUpperCase() { [native code] } mode
+[2026-01-12T08:41:17.076Z] [INFO] Version: 1.4.1
+[2026-01-12T08:41:17.076Z] [INFO] Log file: ./logs/mcp-server.log
+[2026-01-12T08:41:17.088Z] [INFO] Tool ado_get_work_item registered successfully
+[2026-01-12T08:41:17.089Z] [INFO] Tool ado_create_work_item registered successfully
+[2026-01-12T08:41:17.089Z] [INFO] Tool bcp_calculator registered successfully
+[2026-01-12T08:41:17.089Z] [INFO] 
+      Code Interpreter initialized: useDocker=false, 
+      dockerImage=python:3.9-slim, 
+      timeoutMs=120000
+[2026-01-12T08:41:17.089Z] [INFO] Tool code_interpreter registered successfully
+[2026-01-12T08:41:17.089Z] [INFO] Tool github_search_code registered successfully
+[2026-01-12T08:41:17.089Z] [INFO] Tool jira_list_projects registered successfully
+[2026-01-12T08:41:17.089Z] [INFO] Tool jira_get_issue registered successfully
+[2026-01-12T08:41:17.090Z] [INFO] Tool who_am_i registered successfully
+[2026-01-12T08:41:17.090Z] [INFO] Tool dump_log registered successfully
+[2026-01-12T08:41:17.090Z] [INFO] Configured STDIO transport
+[2026-01-12T08:41:17.090Z] [INFO] Starting MCP server
+[2026-01-12T08:41:17.090Z] [INFO] Initializing Flow prompts
+[2026-01-12T08:41:17.090Z] [INFO] Initializing Flow prompt manager
+[2026-01-12T08:41:17.090Z] [INFO] Performing GET request to endpoint: v1/prompt-templates
+[2026-01-12T08:41:17.090Z] [DEBUG] Auth data requested
+[2026-01-12T08:41:17.090Z] [DEBUG] Authentication headers generated successfully
+[2026-01-12T08:41:17.090Z] [DEBUG] Full request URL: https://flow.ciandt.com/channels-service/v1/prompt-templates
+[2026-01-12T08:41:17.090Z] [DEBUG] Request headers: {
+  "Content-Type": "application/json",
+  "Accept": "application/json",
+  "FlowAgent": "mcp-ciandt-flow",
+  "FlowToken": "eyJhbGciOiJSUzI1NiIsImtpZCI6IlBmNEhwSlJPNlB5TTd2eU00amRiaHV0T2NMRy0xQTlnZHpQMnNISzM3dHMiLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiI3NmYwMWRhZi01NWQ5LTQ2N2UtYTBmZi03NWUzODgxNGJmOWYiLCJpc3MiOiJodHRwczovL2NpdGZsb3dwcmRiMmMuYjJjbG9naW4uY29tLzBhODc5MDU0LWY3YTUtNDdmYS1iODhlLWE1NmIzYzMwYjIwMS92Mi4wLyIsImV4cCI6MTc2NjkzMzI0NCwibmJmIjoxNzY2ODQ2ODQ0LCJzdWIiOiJjNmQxZGFmMS01YTE1LTQxZTgtYmU3MC1iOTRkODkyYjVmMTYiLCJlbWFpbCI6InZrYWppeWFtYUBjaWFuZHQuY29tIiwiZ2l2ZW5fbmFtZSI6IlZpY3RvciIsImZhbWlseV9uYW1lIjoiS29pdGkgS2FqaXlhbWEiLCJuYW1lIjoiVmljdG9yIEtvaXRpIEthaml5YW1hIiwiaWRwIjoiZ29vZ2xlLmNvbSIsImNoYW5uZWwiOiJwb3J0YWwiLCJ0ZW5hbnQiOiJjaXQiLCJyb2xlcyI6ImZsb3djb3JlLnVzZXIsZmxvd2NvcmUuYWRtaW4sYmFja2xvZ3JlZmluZXIudXNlcixiYWNrbG9ncmVmaW5lci5hZG1pbixmbG93b3BzLnVzZXIsZmxvd29wcy5hZG1pbixhZ2VudHJ1bm5lci51c2VyLGFnZW50cnVubmVyLmFkbWluLGNoYXR3aXRoZG9jcy51c2VyLGNoYXR3aXRoZG9jcy5hZG1pbixjb2RlcmZyYW1ld29yay51c2VyLGNvZGVyZnJhbWV3b3JrLmFkbWluLG1ha2VyLmFkbWluLG1ha2VyLnVzZXIiLCJpbmZyYVRlbmFudCI6ImNpdDIiLCJhY2Nlc3NQcm9maWxlcyI6W10sInRpZCI6IjBhODc5MDU0LWY3YTUtNDdmYS1iODhlLWE1NmIzYzMwYjIwMSIsImF6cCI6Ijc2ZjAxZGFmLTU1ZDktNDY3ZS1hMGZmLTc1ZTM4ODE0YmY5ZiIsInZlciI6IjEuMCIsImlhdCI6MTc2Njg0Njg0NH0.GcGV1hPw2nl-et37bqWZ3BUMl22TcmDM023tkPWaIWKRVqRuP7IE7b4-fxQ84rLOO7Bkc-5GBB3ROlR0zUpXg_jKa1M9MW7OTSnkiLuXkmZUIQkyzTLKpiIrECnf-I2-M5QtvD-89oErwVSIDuo3zM45Vp2E7BoDTB_2kNZvjkc_GmmZbnZSfYJ1qSbQko4SJ8pivtB_BiQDpcLfzfIzE6RzAdGpe4E_Q_BHXct_1Z8hxxvBHKOeWNhGp3-eATqvnjajzUkTivKRtNIc0UzSZEhAvEMu1SCP0v4oYGixFEwXeOvC8oMfZ_Zichg6t6CKcHF4-NLKnlgOmnI7zxQIng",
+  "FlowTenant": "cit"
+}
+[2026-01-12T08:41:17.483Z] [DEBUG] GET request completed in 393ms with status: 401

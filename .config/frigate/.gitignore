@@ -1,0 +1,8 @@
+# No seu .config/frigate/.gitignore
+storage/             # Vídeos pesados
+*.db-journal         # Arquivos temporários do SQLite
+cache/               # Cache do sistema
+faces/             # Descomente se o repo for público e quiser privacidade
+frigate.db*
+faces.db
+model_cache/

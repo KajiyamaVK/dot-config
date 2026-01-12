@@ -1,6 +1,18 @@
 mqtt:
   enabled: false
 
+model:
+  # Define o caminho. O Frigate irá baixar este modelo automaticamente
+  # na primeira inicialização se ele não existir.
+  path: /config/model_cache/yolox_s.onnx
+  labelmap_path: /config/model_cache/coco_80cl.txt
+  model_type: yolox
+  width: 640
+  height: 640
+  input_tensor: nchw
+  input_pixel_format: bgr
+  input_dtype: float
+
 # -----------------------------------------------------------
 # DETECTOR
 # Usamos 'onnx' com device 'auto'. O container tensorrt
@@ -18,37 +30,41 @@ detectors:
 # -----------------------------------------------------------
 face_recognition:
   enabled: true
-
+  model_size: large
+  min_area: 200     # Mínimo de pixels quadrados para tentar reconhecer (ajuste se rostos distantes não forem pegos) [5]
+  recognition_threshold: 0.6 # Confiança mínima para dizer que "é a pessoa" [4]
+  detection_threshold: 0.45   # Garante que ele detecte o rosto antes de tentar o match
+  unknown_score: 0.5
 # -----------------------------------------------------------
 # STREAMS (go2rtc)
 # -----------------------------------------------------------
 go2rtc:
   api:
-    listen: ":1984"
+    listen: :1984
   streams:
     # --- CAM 13 ---
     cam_13_h265:
-      - "rtsp://192.168.0.13:554/user=admin_password=tlJwpbo6_channel=0_stream=0&onvif=0.sdp?real_stream&transport=tcp#audio=aac"
+      - rtsp://192.168.0.13:554/user=admin_password=tlJwpbo6_channel=0_stream=0&onvif=0.sdp?real_stream&transport=tcp#audio=aac
     cam_13_sub:
-      - "rtsp://192.168.0.13:554/user=admin_password=tlJwpbo6_channel=0_stream=1&onvif=0.sdp?real_stream&transport=tcp#video=h264#audio=aac"
+      - rtsp://192.168.0.13:554/user=admin_password=tlJwpbo6_channel=0_stream=1&onvif=0.sdp?real_stream&transport=tcp#video=h264#audio=aac
     cam_13:
-      - "ffmpeg:cam_13_h265#video=h264#hardware=cuda"
+      - ffmpeg:cam_13_h265#video=h264#hardware=cuda
 
     # --- CAM 21 ---
     cam_21_h265:
-      - "rtsp://192.168.0.21:554/user=admin_password=tlJwpbo6_channel=0_stream=0&onvif=0.sdp?real_stream&transport=tcp#audio=aac"
+      - rtsp://192.168.0.21:554/user=admin_password=tlJwpbo6_channel=0_stream=0&onvif=0.sdp?real_stream&transport=tcp#audio=aac
     cam_21_sub:
-      - "rtsp://192.168.0.21:554/user=admin_password=tlJwpbo6_channel=0_stream=1&onvif=0.sdp?real_stream&transport=tcp#video=h264#audio=aac"
+      - rtsp://192.168.0.21:554/user=admin_password=tlJwpbo6_channel=0_stream=1&onvif=0.sdp?real_stream&transport=tcp#video=h264#audio=aac
     cam_21:
-      - "ffmpeg:cam_21_h265#video=h264#hardware=cuda"
+      - ffmpeg:cam_21_h265#video=h264#hardware=cuda
 
     # --- CAM 19 ---
     cam_19_h265:
-      - "rtsp://192.168.0.19:554/user=admin_password=tlJwpbo6_channel=0_stream=0&onvif=0.sdp?real_stream&transport=tcp#audio=aac"
+      - rtsp://192.168.0.19:554/user=admin_password=tlJwpbo6_channel=0_stream=0&onvif=0.sdp?real_stream&transport=tcp#audio=aac
     cam_19_sub:
-      - "rtsp://192.168.0.19:554/user=admin_password=tlJwpbo6_channel=0_stream=1&onvif=0.sdp?real_stream&transport=tcp#video=h264#audio=aac"
+      - rtsp://192.168.0.19:554/user=admin_password=tlJwpbo6_channel=0_stream=1&onvif=0.sdp?real_stream&transport=tcp#video=h264#audio=aac
     cam_19:
-      - "ffmpeg:cam_19_h265#video=h264#hardware=cuda"
+      - ffmpeg:cam_19_h265#video=h264#hardware=cuda
 
 # -----------------------------------------------------------
 # CÂMERAS
@@ -57,14 +73,14 @@ cameras:
   cam_13:
     ffmpeg:
       inputs:
-      - path: rtsp://127.0.0.1:8554/cam_13?video=copy
-        roles: [record]
-      - path: rtsp://127.0.0.1:8554/cam_13_sub?video=copy
-        roles: [detect]
+        - path: rtsp://127.0.0.1:8554/cam_13?video=copy
+          roles: [record]
+        - path: rtsp://127.0.0.1:8554/cam_13_sub?video=copy
+          roles: [detect]
     detect:
       enabled: true
-      width: 640
-      height: 360
+      width: 1280
+      height: 720
       fps: 5
     objects:
       track:
@@ -73,30 +89,37 @@ cameras:
   cam_21:
     ffmpeg:
       inputs:
-      - path: rtsp://127.0.0.1:8554/cam_21?video=copy
-        roles: [record]
-      - path: rtsp://127.0.0.1:8554/cam_21_sub?video=copy
-        roles: [detect]
+        - path: rtsp://127.0.0.1:8554/cam_21?video=copy
+          roles: [record]
+        - path: rtsp://127.0.0.1:8554/cam_21_sub?video=copy
+          roles: [detect]
     detect:
       enabled: true
-      width: 640
-      height: 360
+      width: 1280
+      height: 720
       fps: 5
     objects:
       track:
         - person
+      filters:
+        person:
+          threshold: 0.5 # Abaixe de 0.7 para 0.5 para garantir que ele te "enxergue"
+    snapshots:
+      enabled: true
+    face_recognition:
+      enabled: true
 
   cam_19:
     ffmpeg:
       inputs:
-      - path: rtsp://127.0.0.1:8554/cam_19?video=copy
-        roles: [record]
-      - path: rtsp://127.0.0.1:8554/cam_19_sub?video=copy
-        roles: [detect]
+        - path: rtsp://127.0.0.1:8554/cam_19?video=copy
+          roles: [record]
+        - path: rtsp://127.0.0.1:8554/cam_19_sub?video=copy
+          roles: [detect]
     detect:
       enabled: true
-      width: 640
-      height: 360
+      width: 1280
+      height: 720
       fps: 5
     objects:
       track:
@@ -113,3 +136,4 @@ snapshots:
 
 detect:
   enabled: true
+version: 0.16-0

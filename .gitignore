@@ -13,11 +13,21 @@
 # C. Whitelist the specific subfolders (must come after step B)
 !.config/alacritty/
 !.config/docker/
+
+# 4. Handle the .config/frigate folder
 !.config/frigate/
 .config/frigate/storage/*
+*.db-journal        
+.config/frigate/cache/*             
+.config/frigate/faces/*              
+.config/frigate/frigate.db*
+.config/frigate/faces.db
+.config/frigate/model_cache/*
+
 !.config/infrastructure/
 !.config/nvim/
 !.config/oh-my-zsh/
 !.config/rofi/
 !.config/warp-terminal/
 !.config/zsh/
+!.config/samba/
