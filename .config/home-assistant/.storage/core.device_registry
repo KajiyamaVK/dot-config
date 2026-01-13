@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "minor_version": 12,
+  "key": "core.device_registry",
+  "data": {
+    "devices": [
+      {"area_id":null,"config_entries":["01KET9ZQ220EDSCZ1FKQACYK4R"],"config_entries_subentries":{"01KET9ZQ220EDSCZ1FKQACYK4R":[null]},"configuration_url":null,"connections":[],"created_at":"2026-01-12T23:52:14.148449+00:00","disabled_by":null,"entry_type":"service","hw_version":null,"id":"009ea0302637ea81e3631fb8eccea5ee","identifiers":[["sun","01KET9ZQ220EDSCZ1FKQACYK4R"]],"labels":[],"manufacturer":null,"model":null,"model_id":null,"modified_at":"2026-01-12T23:52:14.148486+00:00","name_by_user":null,"name":"Sun","primary_config_entry":"01KET9ZQ220EDSCZ1FKQACYK4R","serial_number":null,"sw_version":null,"via_device_id":null},
+      {"area_id":null,"config_entries":["01KET9ZQ990B795XRFN4KMGFPF"],"config_entries_subentries":{"01KET9ZQ990B795XRFN4KMGFPF":[null]},"configuration_url":null,"connections":[["bluetooth","90:DE:80:37:81:82"]],"created_at":"2026-01-12T23:52:14.378130+00:00","disabled_by":null,"entry_type":null,"hw_version":null,"id":"ae1d168786c23503f167af603beeeaf9","identifiers":[],"labels":[],"manufacturer":"Shenzhen Century Xinyang Technology Co., Ltd","model":"Unknown","model_id":null,"modified_at":"2026-01-12T23:52:14.378166+00:00","name_by_user":null,"name":"hci1 (90:DE:80:37:81:82)","primary_config_entry":"01KET9ZQ990B795XRFN4KMGFPF","serial_number":null,"sw_version":"Unknown","via_device_id":null},
+      {"area_id":null,"config_entries":["01KET9ZQ9HNB6QMKNG61KTP559"],"config_entries_subentries":{"01KET9ZQ9HNB6QMKNG61KTP559":[null]},"configuration_url":"homeassistant://config/backup","connections":[],"created_at":"2026-01-12T23:52:14.404264+00:00","disabled_by":null,"entry_type":"service","hw_version":null,"id":"70b400627262225d279c86a568996563","identifiers":[["backup","backup_manager"]],"labels":[],"manufacturer":"Home Assistant","model":"Home Assistant Backup","model_id":null,"modified_at":"2026-01-12T23:52:14.404300+00:00","name_by_user":null,"name":"Backup","primary_config_entry":"01KET9ZQ9HNB6QMKNG61KTP559","serial_number":null,"sw_version":"2026.1.1","via_device_id":null},
+      {"area_id":null,"config_entries":["01KET9ZSC44H26P9DEPTJSC422"],"config_entries_subentries":{"01KET9ZSC44H26P9DEPTJSC422":[null]},"configuration_url":null,"connections":[],"created_at":"2026-01-12T23:52:16.751596+00:00","disabled_by":null,"entry_type":null,"hw_version":null,"id":"eb6151807d99f34165a445fa7a41d5ae","identifiers":[["cast","1586314f9ba3407abb80bcbb5494550c"]],"labels":[],"manufacturer":"Unknown manufacturer","model":"AirScreen","model_id":null,"modified_at":"2026-01-12T23:52:16.751637+00:00","name_by_user":null,"name":"AS-HY320[Cast]","primary_config_entry":"01KET9ZSC44H26P9DEPTJSC422","serial_number":null,"sw_version":null,"via_device_id":null}
+    ],
+    "deleted_devices": []
+  }
+}

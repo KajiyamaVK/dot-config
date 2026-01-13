@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "minor_version": 5,
+  "key": "core.config_entries",
+  "data": {
+    "entries": [
+      {"created_at":"2026-01-12T23:52:14.146687+00:00","data":{},"disabled_by":null,"discovery_keys":{},"domain":"sun","entry_id":"01KET9ZQ220EDSCZ1FKQACYK4R","minor_version":1,"modified_at":"2026-01-12T23:52:14.146689+00:00","options":{},"pref_disable_new_entities":false,"pref_disable_polling":false,"source":"import","subentries":[],"title":"Sun","unique_id":null,"version":1},
+      {"created_at":"2026-01-12T23:52:14.377908+00:00","data":{},"disabled_by":null,"discovery_keys":{},"domain":"bluetooth","entry_id":"01KET9ZQ990B795XRFN4KMGFPF","minor_version":1,"modified_at":"2026-01-12T23:52:14.377910+00:00","options":{},"pref_disable_new_entities":false,"pref_disable_polling":false,"source":"integration_discovery","subentries":[],"title":"Shenzhen Century Xinyang Technology Co., Ltd None (90:DE:80:37:81:82)","unique_id":"90:DE:80:37:81:82","version":1},
+      {"created_at":"2026-01-12T23:52:14.382194+00:00","data":{},"disabled_by":null,"discovery_keys":{},"domain":"go2rtc","entry_id":"01KET9ZQ9EWA636CA9W4MHT9D2","minor_version":1,"modified_at":"2026-01-12T23:52:14.382196+00:00","options":{},"pref_disable_new_entities":false,"pref_disable_polling":false,"source":"system","subentries":[],"title":"go2rtc","unique_id":null,"version":1},
+      {"created_at":"2026-01-12T23:52:14.385148+00:00","data":{},"disabled_by":null,"discovery_keys":{},"domain":"backup","entry_id":"01KET9ZQ9HNB6QMKNG61KTP559","minor_version":1,"modified_at":"2026-01-12T23:52:14.385149+00:00","options":{},"pref_disable_new_entities":false,"pref_disable_polling":false,"source":"system","subentries":[],"title":"Backup","unique_id":null,"version":1},
+      {"created_at":"2026-01-12T23:52:16.516042+00:00","data":{"ignore_cec":[],"known_hosts":[],"user_id":"e0bca4c2f6464a0b9cc2a8cf50470a3c","uuid":[]},"disabled_by":null,"discovery_keys":{"zeroconf":[{"domain":"zeroconf","key":["_googlecast._tcp.local.","AS-HY320[Cast]._googlecast._tcp.local."],"version":1}]},"domain":"cast","entry_id":"01KET9ZSC44H26P9DEPTJSC422","minor_version":1,"modified_at":"2026-01-12T23:52:16.518122+00:00","options":{},"pref_disable_new_entities":false,"pref_disable_polling":false,"source":"zeroconf","subentries":[],"title":"Google Cast","unique_id":"cast","version":1}
+    ]
+  }
+}
