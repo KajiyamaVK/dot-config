@@ -35,6 +35,32 @@ face_recognition:
   recognition_threshold: 0.6 # Confiança mínima para dizer que "é a pessoa" [4]
   detection_threshold: 0.45   # Garante que ele detecte o rosto antes de tentar o match
   unknown_score: 0.5
+
+# -----------------------------------------------------------
+# GLOBAL RECORD CONFIG
+# -----------------------------------------------------------
+
+record:
+  enabled: True
+  retain:
+    days: 3
+    mode: motion
+
+# -----------------------------------------------------------
+# PRESETS
+# Para serem usados em qualquer local deste config.
+# -----------------------------------------------------------
+x-record-active-objects: &active_objects_record
+  enabled: True
+  retain:
+    days: 7
+    mode: active_objects
+
+x-record-247: &record_247
+  enabled: True
+  retain:
+    days: 3
+    mode: all
 # -----------------------------------------------------------
 # STREAMS (go2rtc)
 # -----------------------------------------------------------
@@ -70,7 +96,7 @@ go2rtc:
 # CÂMERAS
 # -----------------------------------------------------------
 cameras:
-  cam_13:
+  cam_13: #garagem
     ffmpeg:
       inputs:
         - path: rtsp://127.0.0.1:8554/cam_13?video=copy
@@ -85,10 +111,23 @@ cameras:
     objects:
       track:
         - person
+        - car
+        - motorcycle
+        - bus
+        - truck
+        - cat
+        - dog
+        - bird
+      filters:
+        person:
+          threshold: 0.5 
 
     notifications:
       enabled: true
-  cam_21:
+
+    record: *active_objects_record
+
+  cam_21: #sala
     ffmpeg:
       inputs:
         - path: rtsp://127.0.0.1:8554/cam_21?video=copy
@@ -113,7 +152,8 @@ cameras:
 
     notifications:
       enabled: true
-  cam_19:
+
+  cam_19: #quintal
     ffmpeg:
       inputs:
         - path: rtsp://127.0.0.1:8554/cam_19?video=copy
@@ -128,14 +168,18 @@ cameras:
     objects:
       track:
         - person
+        - car
+        - motorcycle
+        - bus
+        - truck
+        - cat
+        - dog
+        - bird
 
     notifications:
       enabled: true
-record:
-  enabled: true
-  retain:
-    days: 3
-    mode: motion
+
+    record: *active_objects_record
 
 snapshots:
   enabled: true
