@@ -30,3 +30,13 @@ export NVM_DIR="$HOME/.nvm"
 if command -v zoxide >/dev/null 2>&1; then
   eval "$(zoxide init zsh)"
 fi
+
+# fzf shell integration
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  # macOS (Homebrew)
+  source <(fzf --zsh)
+elif [[ -f /usr/share/doc/fzf/examples/key-bindings.zsh ]]; then
+  # Linux Mint / Debian / Ubuntu
+  source /usr/share/doc/fzf/examples/key-bindings.zsh
+  source /usr/share/doc/fzf/examples/completion.zsh
+fi
