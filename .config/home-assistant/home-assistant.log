@@ -1357,3 +1357,4 @@ OSError: [Errno 101] Network unreachable
 2026-01-17 15:21:08.566 ERROR (MainThread) [habluetooth.scanner] hci1 (90:DE:80:37:81:82): Failed to force stop scanner: 'NoneType' object has no attribute 'send'
 2026-01-17 15:21:31.876 ERROR (MainThread) [habluetooth.scanner] hci1 (90:DE:80:37:81:82): Failed to force stop scanner: 'NoneType' object has no attribute 'send'
 2026-01-17 15:22:28.913 ERROR (MainThread) [habluetooth.scanner] hci1 (90:DE:80:37:81:82): Failed to force stop scanner: 'NoneType' object has no attribute 'send'
+2026-01-17 15:22:52.138 ERROR (MainThread) [habluetooth.scanner] hci1 (90:DE:80:37:81:82): Failed to force stop scanner: 'NoneType' object has no attribute 'send'
