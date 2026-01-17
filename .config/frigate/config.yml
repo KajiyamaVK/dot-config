@@ -70,19 +70,21 @@ go2rtc:
   streams:
     # --- CAM 13 ---
     cam_13_h265:
-      - rtsp://192.168.0.13:554/user=admin_password=tlJwpbo6_channel=0_stream=0&onvif=0.sdp?real_stream&transport=tcp#audio=aac
+      - "rtsp://192.168.0.13:554/user=yxya_password=pZqLq3pd_channel=0_stream=0&onvif=0.sdp?real_stream&transport=tcp#audio=aac"
     cam_13_sub:
-      - rtsp://192.168.0.13:554/user=admin_password=tlJwpbo6_channel=0_stream=1&onvif=0.sdp?real_stream&transport=tcp#video=h264#audio=aac
+      - "rtsp://192.168.0.13:554/user=yxya_password=pZqLq3pd_channel=0_stream=1&onvif=0.sdp?real_stream&transport=tcp#video=h264#audio=aac"
     cam_13:
       - ffmpeg:cam_13_h265#video=h264#hardware=cuda
 
     # --- CAM 21 ---
     cam_21_h265:
-      - rtsp://192.168.0.21:554/user=admin_password=tlJwpbo6_channel=0_stream=0&onvif=0.sdp?real_stream&transport=tcp#audio=aac
+      - "rtsp://192.168.0.21:554/user=ntfk_password=Yf5n3LWd_channel=0_stream=0&onvif=0.sdp?real_stream&transport=tcp#audio=aac"
     cam_21_sub:
-      - rtsp://192.168.0.21:554/user=admin_password=tlJwpbo6_channel=0_stream=1&onvif=0.sdp?real_stream&transport=tcp#video=h264#audio=aac
+      - "rtsp://192.168.0.21:554/user=ntfk_password=Yf5n3LWd_channel=0_stream=1&onvif=0.sdp?real_stream&transport=tcp#video=h264#audio=aac"
+    # Mantenha o resto igual...
     cam_21:
       - ffmpeg:cam_21_h265#video=h264#hardware=cuda
+      
 
     # --- CAM 19 ---
     cam_19_h265:
@@ -124,7 +126,6 @@ cameras:
 
     notifications:
       enabled: true
-
     record: *active_objects_record
 
   cam_21: #sala
