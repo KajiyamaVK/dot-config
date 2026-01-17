@@ -1,18 +1,23 @@
-# 1. Ignore everything in the root directory
+# Ignore all files by default
 /*
 
-# 2. Whitelist (! means "do not ignore") the specific file
 !.zshrc
 !.gitignore
 
-# 3. Handle the .config folder
-# A. Un-ignore the folder itself so git looks inside
+# Handle the .config directory
+# Important: Even though we are un-ignoring .config/,
 !.config/
-# B. Ignore everything inside .config (so you don't track unwanted configs)
 .config/*
-# C. Whitelist the specific subfolders (must come after step B)
 !.config/alacritty/
 !.config/docker/
+
+!.config/infrastructure/
+!.config/nvim/
+!.config/oh-my-zsh/
+!.config/rofi/
+!.config/warp-terminal/
+!.config/zsh/
+!.config/samba/
 
 # 4. Handle the .config/frigate folder
 !.config/frigate/
@@ -23,15 +28,12 @@
 .config/frigate/frigate.db*
 .config/frigate/faces.db
 .config/frigate/model_cache/*
+**/frigate.yml
 
-!.config/infrastructure/
-!.config/nvim/
-!.config/oh-my-zsh/
-!.config/rofi/
-!.config/warp-terminal/
-!.config/zsh/
-!.config/samba/
 
 # Home Assistant specific configs
 !.config/home-assistant/
 .config/home-assistant/.storage/
+.config/home-assistant/*.db
+.config/home-assistant/*.log
+**/secrets.yaml
