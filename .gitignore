@@ -43,8 +43,8 @@
 .config/frigate/*.db-journal
 
 # Home Assistant
-!.config/home-assistant/
-.config/home-assistant/.storage/
+!.config/home-assistant/*
+.config/home-assistant/.storage/*
 .config/home-assistant/*.db
 .config/home-assistant/*.db-shm
 .config/home-assistant/*.db-wal
