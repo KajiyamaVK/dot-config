@@ -31,4 +31,7 @@
 !.config/warp-terminal/
 !.config/zsh/
 !.config/samba/
+
+# Home Assistant specific configs
 !.config/home-assistant/
+.config/home-assistant/.storage/
