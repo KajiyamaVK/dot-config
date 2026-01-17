@@ -1,39 +1,52 @@
-# Ignore all files by default
+# 1. Deny everything
 /*
 
-!.zshrc
+# 2. Allow Git config
 !.gitignore
 
-# Handle the .config directory
-# Important: Even though we are un-ignoring .config/,
+# 3. Global Ignores (Apply to all un-ignored folders)
+# Security & OS junk
+**/secrets.yaml
+**/*.log
+**/.DS_Store
+**/__pycache__/
+
+# 4. Whitelist: The .config directory
 !.config/
 .config/*
+
+# --- App Whitelists ---
+
+# Dev Tools
 !.config/alacritty/
 !.config/docker/
-
-!.config/infrastructure/
 !.config/nvim/
+!.config/tmux/        # Suggestion: If you use tmux
+!.config/zsh/
 !.config/oh-my-zsh/
 !.config/rofi/
 !.config/warp-terminal/
-!.config/zsh/
+
+# System / Infra
+!.config/infrastructure/
 !.config/samba/
 
-# 4. Handle the .config/frigate folder
+# --- Home Automation ---
+
+# Frigate
 !.config/frigate/
 .config/frigate/storage/*
-*.db-journal        
-.config/frigate/cache/*             
-.config/frigate/faces/*              
-.config/frigate/frigate.db*
-.config/frigate/faces.db
+.config/frigate/cache/*
+.config/frigate/faces/*
 .config/frigate/model_cache/*
-**/frigate.yml
+.config/frigate/*.db
+.config/frigate/*.db-journal
 
-
-# Home Assistant specific configs
+# Home Assistant
 !.config/home-assistant/
 .config/home-assistant/.storage/
 .config/home-assistant/*.db
-.config/home-assistant/*.log
-**/secrets.yaml
+.config/home-assistant/*.db-shm
+.config/home-assistant/*.db-wal
+.config/home-assistant/backups/ # Don't commit local HA backups
+.config/home-assistant/tts/     # Don't commit generated text-to-speech audio
