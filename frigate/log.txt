@@ -1,0 +1,341 @@
+.config/frigate [ docker logs -f frigate                                     main * ] 5:56 AM
+s6-rc: info: service s6rc-fdholder: starting
+s6-rc: info: service s6rc-oneshot-runner: starting
+s6-rc: info: service s6rc-oneshot-runner successfully started
+s6-rc: info: service fix-attrs: starting
+s6-rc: info: service s6rc-fdholder successfully started
+s6-rc: info: service fix-attrs successfully started
+s6-rc: info: service legacy-cont-init: starting
+s6-rc: info: service legacy-cont-init successfully started
+s6-rc: info: service prepare: starting
+s6-rc: info: service log-prepare: starting
+s6-rc: info: service log-prepare successfully started
+s6-rc: info: service nginx-log: starting
+s6-rc: info: service go2rtc-log: starting
+s6-rc: info: service frigate-log: starting
+s6-rc: info: service certsync-log: starting
+s6-rc: info: service nginx-log successfully started
+s6-rc: info: service certsync-log successfully started
+s6-rc: info: service go2rtc-log successfully started
+s6-rc: info: service prepare successfully started
+s6-rc: info: service go2rtc: starting
+s6-rc: info: service frigate-log successfully started
+s6-rc: info: service go2rtc successfully started
+s6-rc: info: service go2rtc-healthcheck: starting
+s6-rc: info: service frigate: starting
+s6-rc: info: service frigate successfully started
+s6-rc: info: service nginx: starting
+s6-rc: info: service go2rtc-healthcheck successfully started
+2026-01-12 05:56:27.577617088  [INFO] Starting NGINX...
+2026-01-12 05:56:27.591204835  [INFO] No TLS certificate found. Generating a self signed certificate...
+2026-01-12 05:56:27.923784521  [INFO] Preparing new go2rtc config...
+2026-01-12 05:56:28.048744661  [INFO] Preparing Frigate...
+2026-01-12 05:56:28.277543321  [INFO] Starting go2rtc...
+2026-01-12 05:56:28.356123398  05:56:28.355 INF go2rtc platform=linux/amd64 revision=fa580c5 version=1.9.9
+2026-01-12 05:56:28.356127763  05:56:28.355 INF config path=/dev/shm/go2rtc.yaml
+2026-01-12 05:56:28.356129767  05:56:28.356 INF [api] listen addr=:1984
+2026-01-12 05:56:28.356131612  05:56:28.356 INF [rtsp] listen addr=:8554
+2026-01-12 05:56:28.356565602  05:56:28.356 INF [webrtc] listen addr=:8555
+2026-01-12 05:56:28.380236920  [INFO] Starting Frigate...
+2026-01-12 05:56:30.937107505  [2026-01-12 05:56:30] frigate.util.config            INFO    : Checking if frigate config needs migration...
+2026-01-12 05:56:30.950140169  [2026-01-12 05:56:30] frigate.util.config            INFO    : copying config as backup...
+2026-01-12 05:56:30.950673572  [2026-01-12 05:56:30] frigate.util.config            INFO    : Migrating frigate config from 0.13 to 0.14...
+2026-01-12 05:56:30.959774777  [2026-01-12 05:56:30] frigate.util.config            INFO    : Migrating export file names...
+2026-01-12 05:56:30.968503093  [2026-01-12 05:56:30] frigate.util.config            INFO    : Migrating frigate config from 0.14 to 0.15-0...
+2026-01-12 05:56:30.976780319  [2026-01-12 05:56:30] frigate.util.config            INFO    : Migrating frigate config from 0.15-0 to 0.15-1...
+2026-01-12 05:56:30.984983266  [2026-01-12 05:56:30] frigate.util.config            INFO    : Migrating frigate config from 0.15-1 to 0.16-0...
+2026-01-12 05:56:30.999500257  Traceback (most recent call last):
+2026-01-12 05:56:30.999663253    File "<frozen runpy>", line 198, in _run_module_as_main
+2026-01-12 05:56:30.999665325    File "<frozen runpy>", line 88, in _run_code
+2026-01-12 05:56:30.999667750    File "/opt/frigate/frigate/__main__.py", line 108, in <module>
+2026-01-12 05:56:30.999779053  [2026-01-12 05:56:30] frigate.util.config            INFO    : Finished frigate config migration...
+2026-01-12 05:56:30.999789540      main()
+2026-01-12 05:56:30.999857492    File "/opt/frigate/frigate/__main__.py", line 38, in main
+2026-01-12 05:56:30.999994073      config = FrigateConfig.load(install=True)
+2026-01-12 05:56:31.000040573               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-01-12 05:56:31.000047235    File "/opt/frigate/frigate/config/config.py", line 743, in load
+2026-01-12 05:56:31.000230945      return FrigateConfig.parse(f, **kwargs)
+2026-01-12 05:56:31.000280588             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-01-12 05:56:31.000287539    File "/opt/frigate/frigate/config/config.py", line 771, in parse
+2026-01-12 05:56:31.000400778      return cls.parse_object(config, **context)
+2026-01-12 05:56:31.000460442             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-01-12 05:56:31.000467366    File "/opt/frigate/frigate/config/config.py", line 781, in parse_object
+2026-01-12 05:56:31.000587214      return cls.model_validate(
+2026-01-12 05:56:31.000618365             ^^^^^^^^^^^^^^^^^^^
+2026-01-12 05:56:31.000625300    File "/usr/local/lib/python3.11/dist-packages/pydantic/main.py", line 627, in model_validate
+2026-01-12 05:56:31.000736235      return cls.__pydantic_validator__.validate_python(
+2026-01-12 05:56:31.000789963             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-01-12 05:56:31.000796739    File "/opt/frigate/frigate/detectors/detector_config.py", line 107, in __init__
+2026-01-12 05:56:31.000844955      **load_labels(config.get("labelmap_path", "/labelmap.txt")),
+2026-01-12 05:56:31.000924566        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-01-12 05:56:31.000932907    File "/opt/frigate/frigate/util/builtin.py", line 146, in load_labels
+2026-01-12 05:56:31.000980918      with open(path, "r", encoding=encoding) as f:
+2026-01-12 05:56:31.001038704           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-01-12 05:56:31.001055245  FileNotFoundError: [Errno 2] No such file or directory: '/config/model_cache/coco_91cl.txt'
+2026-01-12 05:56:31.434051590  [INFO] Service Frigate exited with code 1 (by signal 0)
+s6-rc: info: service nginx successfully started
+s6-rc: info: service certsync: starting
+s6-rc: info: service certsync successfully started
+s6-rc: info: service legacy-services: starting
+2026-01-12 05:56:31.489645167  [INFO] Starting certsync...
+s6-rc: info: service legacy-services successfully started
+s6-rc: info: service legacy-services: stopping
+s6-rc: info: service legacy-services successfully stopped
+s6-rc: info: service go2rtc-healthcheck: stopping
+s6-rc: info: service certsync: stopping
+2026-01-12 05:56:31.499343644  [INFO] Service CERTSYNC exited with code 256 (by signal 15)
+s6-rc: info: service certsync successfully stopped
+2026-01-12 05:56:31.500157938  [INFO] The go2rtc-healthcheck service exited with code 256 (by signal 15)
+s6-rc: info: service nginx: stopping
+s6-rc: info: service certsync-log: stopping
+s6-rc: info: service go2rtc-healthcheck successfully stopped
+s6-rc: info: service certsync-log successfully stopped
+2026-01-12 05:56:31.525763019  [INFO] Service NGINX exited with code 0 (by signal 0)
+s6-rc: info: service nginx successfully stopped
+s6-rc: info: service nginx-log: stopping
+s6-rc: info: service frigate: stopping
+s6-rc: info: service frigate successfully stopped
+s6-rc: info: service go2rtc: stopping
+s6-rc: info: service frigate-log: stopping
+s6-rc: info: service nginx-log successfully stopped
+2026-01-12 05:56:31.528374043  exit with signal: terminated
+s6-rc: info: service frigate-log successfully stopped
+2026-01-12 05:56:31.532701397  [INFO] The go2rtc service exited with code 0 (by signal 0)
+s6-rc: info: service go2rtc successfully stopped
+s6-rc: info: service prepare: stopping
+s6-rc: info: service go2rtc-log: stopping
+s6-rc: info: service prepare successfully stopped
+s6-rc: info: service go2rtc-log successfully stopped
+s6-rc: info: service log-prepare: stopping
+s6-rc: info: service s6rc-fdholder: stopping
+s6-rc: info: service log-prepare successfully stopped
+s6-rc: info: service legacy-cont-init: stopping
+s6-rc: info: service s6rc-fdholder successfully stopped
+s6-rc: info: service legacy-cont-init successfully stopped
+s6-rc: info: service fix-attrs: stopping
+s6-rc: info: service fix-attrs successfully stopped
+s6-rc: info: service s6rc-oneshot-runner: stopping
+s6-rc: info: service s6rc-oneshot-runner successfully stopped
+s6-rc: info: service s6rc-fdholder: starting
+s6-rc: info: service s6rc-oneshot-runner: starting
+s6-rc: info: service s6rc-oneshot-runner successfully started
+s6-rc: info: service fix-attrs: starting
+s6-rc: info: service s6rc-fdholder successfully started
+s6-rc: info: service fix-attrs successfully started
+s6-rc: info: service legacy-cont-init: starting
+s6-rc: info: service legacy-cont-init successfully started
+s6-rc: info: service prepare: starting
+s6-rc: info: service log-prepare: starting
+s6-rc: info: service log-prepare successfully started
+s6-rc: info: service nginx-log: starting
+s6-rc: info: service go2rtc-log: starting
+s6-rc: info: service frigate-log: starting
+s6-rc: info: service certsync-log: starting
+s6-rc: info: service frigate-log successfully started
+s6-rc: info: service go2rtc-log successfully started
+s6-rc: info: service certsync-log successfully started
+s6-rc: info: service nginx-log successfully started
+s6-rc: info: service prepare successfully started
+s6-rc: info: service go2rtc: starting
+s6-rc: info: service go2rtc successfully started
+s6-rc: info: service go2rtc-healthcheck: starting
+s6-rc: info: service frigate: starting
+s6-rc: info: service frigate successfully started
+s6-rc: info: service nginx: starting
+s6-rc: info: service go2rtc-healthcheck successfully started
+2026-01-12 05:56:34.973409126  [INFO] Starting NGINX...
+2026-01-12 05:56:35.070993670  [INFO] Preparing Frigate...
+2026-01-12 05:56:35.379774544  [INFO] Preparing new go2rtc config...
+2026-01-12 05:56:35.554895033  [INFO] Starting Frigate...
+2026-01-12 05:56:35.748988371  [INFO] Starting go2rtc...
+2026-01-12 05:56:35.862028351  05:56:35.861 INF go2rtc platform=linux/amd64 revision=fa580c5 version=1.9.9
+2026-01-12 05:56:35.862032553  05:56:35.861 INF config path=/dev/shm/go2rtc.yaml
+2026-01-12 05:56:35.862591810  05:56:35.862 INF [rtsp] listen addr=:8554
+2026-01-12 05:56:35.863145749  05:56:35.863 INF [webrtc] listen addr=:8555
+2026-01-12 05:56:35.863352302  05:56:35.862 INF [api] listen addr=:1984
+s6-rc: info: service nginx successfully started
+s6-rc: info: service certsync: starting
+s6-rc: info: service certsync successfully started
+s6-rc: info: service legacy-services: starting
+2026-01-12 05:56:36.540372769  [INFO] Starting certsync...
+s6-rc: info: service legacy-services successfully started
+2026-01-12 05:56:36.919028237  127.0.0.1 - - [12/Jan/2026:05:56:36 -0300] "" 400 0 "-" "-" "-"
+2026-01-12 05:56:37.741166078  [2026-01-12 05:56:37] frigate.util.config            INFO    : Checking if frigate config needs migration...
+2026-01-12 05:56:37.769686743  [2026-01-12 05:56:37] frigate.util.config            INFO    : frigate config does not need migration...
+2026-01-12 05:56:37.773609846  Traceback (most recent call last):
+2026-01-12 05:56:37.773612474    File "<frozen runpy>", line 198, in _run_module_as_main
+2026-01-12 05:56:37.773613841    File "<frozen runpy>", line 88, in _run_code
+2026-01-12 05:56:37.773627699    File "/opt/frigate/frigate/__main__.py", line 108, in <module>
+2026-01-12 05:56:37.773838888      main()
+2026-01-12 05:56:37.773906880    File "/opt/frigate/frigate/__main__.py", line 38, in main
+2026-01-12 05:56:37.774002284      config = FrigateConfig.load(install=True)
+2026-01-12 05:56:37.774063647               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-01-12 05:56:37.774070548    File "/opt/frigate/frigate/config/config.py", line 743, in load
+2026-01-12 05:56:37.774189794      return FrigateConfig.parse(f, **kwargs)
+2026-01-12 05:56:37.774257620             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-01-12 05:56:37.774278666    File "/opt/frigate/frigate/config/config.py", line 771, in parse
+2026-01-12 05:56:37.774392772      return cls.parse_object(config, **context)
+2026-01-12 05:56:37.774450873             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-01-12 05:56:37.774458268    File "/opt/frigate/frigate/config/config.py", line 781, in parse_object
+2026-01-12 05:56:37.774568654      return cls.model_validate(
+2026-01-12 05:56:37.774596121             ^^^^^^^^^^^^^^^^^^^
+2026-01-12 05:56:37.774604708    File "/usr/local/lib/python3.11/dist-packages/pydantic/main.py", line 627, in model_validate
+2026-01-12 05:56:37.774706017      return cls.__pydantic_validator__.validate_python(
+2026-01-12 05:56:37.774755917             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-01-12 05:56:37.774762268    File "/opt/frigate/frigate/detectors/detector_config.py", line 107, in __init__
+2026-01-12 05:56:37.774808848      **load_labels(config.get("labelmap_path", "/labelmap.txt")),
+2026-01-12 05:56:37.774884090        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-01-12 05:56:37.774890566    File "/opt/frigate/frigate/util/builtin.py", line 146, in load_labels
+2026-01-12 05:56:37.774937462      with open(path, "r", encoding=encoding) as f:
+2026-01-12 05:56:37.774992628           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-01-12 05:56:37.775008332  FileNotFoundError: [Errno 2] No such file or directory: '/config/model_cache/coco_91cl.txt'
+2026-01-12 05:56:38.176047526  [INFO] Service Frigate exited with code 1 (by signal 0)
+s6-rc: info: service legacy-services: stopping
+s6-rc: info: service legacy-services successfully stopped
+s6-rc: info: service go2rtc-healthcheck: stopping
+s6-rc: info: service certsync: stopping
+2026-01-12 05:56:38.183293351  [INFO] The go2rtc-healthcheck service exited with code 256 (by signal 15)
+s6-rc: info: service go2rtc-healthcheck successfully stopped
+2026-01-12 05:56:38.184097930  [INFO] Service CERTSYNC exited with code 256 (by signal 15)
+s6-rc: info: service certsync successfully stopped
+s6-rc: info: service nginx: stopping
+s6-rc: info: service certsync-log: stopping
+s6-rc: info: service certsync-log successfully stopped
+2026-01-12 05:56:38.208546240  [INFO] Service NGINX exited with code 0 (by signal 0)
+s6-rc: info: service nginx successfully stopped
+s6-rc: info: service nginx-log: stopping
+s6-rc: info: service frigate: stopping
+s6-rc: info: service frigate successfully stopped
+s6-rc: info: service go2rtc: stopping
+s6-rc: info: service frigate-log: stopping
+s6-rc: info: service nginx-log successfully stopped
+2026-01-12 05:56:38.210931014  exit with signal: terminated
+s6-rc: info: service frigate-log successfully stopped
+2026-01-12 05:56:38.215269109  [INFO] The go2rtc service exited with code 0 (by signal 0)
+s6-rc: info: service go2rtc successfully stopped
+s6-rc: info: service prepare: stopping
+s6-rc: info: service go2rtc-log: stopping
+s6-rc: info: service prepare successfully stopped
+s6-rc: info: service go2rtc-log successfully stopped
+s6-rc: info: service log-prepare: stopping
+s6-rc: info: service s6rc-fdholder: stopping
+s6-rc: info: service log-prepare successfully stopped
+s6-rc: info: service legacy-cont-init: stopping
+s6-rc: info: service s6rc-fdholder successfully stopped
+s6-rc: info: service legacy-cont-init successfully stopped
+s6-rc: info: service fix-attrs: stopping
+s6-rc: info: service fix-attrs successfully stopped
+s6-rc: info: service s6rc-oneshot-runner: stopping
+s6-rc: info: service s6rc-oneshot-runner successfully stopped
+s6-rc: info: service s6rc-fdholder: starting
+s6-rc: info: service s6rc-oneshot-runner: starting
+s6-rc: info: service s6rc-oneshot-runner successfully started
+s6-rc: info: service fix-attrs: starting
+s6-rc: info: service s6rc-fdholder successfully started
+s6-rc: info: service fix-attrs successfully started
+s6-rc: info: service legacy-cont-init: starting
+s6-rc: info: service legacy-cont-init successfully started
+s6-rc: info: service prepare: starting
+s6-rc: info: service log-prepare: starting
+s6-rc: info: service log-prepare successfully started
+s6-rc: info: service nginx-log: starting
+s6-rc: info: service go2rtc-log: starting
+s6-rc: info: service frigate-log: starting
+s6-rc: info: service certsync-log: starting
+s6-rc: info: service nginx-log successfully started
+s6-rc: info: service go2rtc-log successfully started
+s6-rc: info: service prepare successfully started
+s6-rc: info: service go2rtc: starting
+s6-rc: info: service frigate-log successfully started
+s6-rc: info: service certsync-log successfully started
+s6-rc: info: service go2rtc successfully started
+s6-rc: info: service go2rtc-healthcheck: starting
+s6-rc: info: service frigate: starting
+s6-rc: info: service go2rtc-healthcheck successfully started
+s6-rc: info: service frigate successfully started
+s6-rc: info: service nginx: starting
+2026-01-12 05:56:41.768395245  [INFO] Starting NGINX...
+2026-01-12 05:56:41.873343117  [INFO] Preparing Frigate...
+2026-01-12 05:56:42.281614039  [INFO] Preparing new go2rtc config...
+2026-01-12 05:56:42.343973832  [INFO] Starting Frigate...
+2026-01-12 05:56:42.596547676  [INFO] Starting go2rtc...
+2026-01-12 05:56:42.671214871  05:56:42.671 INF go2rtc platform=linux/amd64 revision=fa580c5 version=1.9.9
+2026-01-12 05:56:42.671240676  05:56:42.671 INF config path=/dev/shm/go2rtc.yaml
+2026-01-12 05:56:42.671651603  05:56:42.671 INF [api] listen addr=:1984
+2026-01-12 05:56:42.671653846  05:56:42.671 INF [rtsp] listen addr=:8554
+2026-01-12 05:56:42.672043501  05:56:42.672 INF [webrtc] listen addr=:8555
+s6-rc: info: service nginx successfully started
+s6-rc: info: service certsync: starting
+s6-rc: info: service certsync successfully started
+s6-rc: info: service legacy-services: starting
+2026-01-12 05:56:43.278729945  [INFO] Starting certsync...
+s6-rc: info: service legacy-services successfully started
+2026-01-12 05:56:43.708329563  127.0.0.1 - - [12/Jan/2026:05:56:43 -0300] "" 400 0 "-" "-" "-"
+2026-01-12 05:56:44.542764050  [2026-01-12 05:56:44] frigate.util.config            INFO    : Checking if frigate config needs migration...
+2026-01-12 05:56:44.561393539  [2026-01-12 05:56:44] frigate.util.config            INFO    : frigate config does not need migration...
+2026-01-12 05:56:44.575608438  Traceback (most recent call last):
+2026-01-12 05:56:44.575611470    File "<frozen runpy>", line 198, in _run_module_as_main
+2026-01-12 05:56:44.575612842    File "<frozen runpy>", line 88, in _run_code
+2026-01-12 05:56:44.575637339    File "/opt/frigate/frigate/__main__.py", line 108, in <module>
+2026-01-12 05:56:44.575797093      main()
+2026-01-12 05:56:44.575838368    File "/opt/frigate/frigate/__main__.py", line 38, in main
+2026-01-12 05:56:44.575940345      config = FrigateConfig.load(install=True)
+2026-01-12 05:56:44.575986824               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-01-12 05:56:44.575993441    File "/opt/frigate/frigate/config/config.py", line 743, in load
+2026-01-12 05:56:44.576143884      return FrigateConfig.parse(f, **kwargs)
+2026-01-12 05:56:44.576187236             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-01-12 05:56:44.576193949    File "/opt/frigate/frigate/config/config.py", line 771, in parse
+2026-01-12 05:56:44.576346721      return cls.parse_object(config, **context)
+2026-01-12 05:56:44.576390193             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-01-12 05:56:44.576396885    File "/opt/frigate/frigate/config/config.py", line 781, in parse_object
+2026-01-12 05:56:44.576497829      return cls.model_validate(
+2026-01-12 05:56:44.576533067             ^^^^^^^^^^^^^^^^^^^
+2026-01-12 05:56:44.576542762    File "/usr/local/lib/python3.11/dist-packages/pydantic/main.py", line 627, in model_validate
+2026-01-12 05:56:44.576646628      return cls.__pydantic_validator__.validate_python(
+2026-01-12 05:56:44.576695306             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-01-12 05:56:44.576701715    File "/opt/frigate/frigate/detectors/detector_config.py", line 107, in __init__
+2026-01-12 05:56:44.576746712      **load_labels(config.get("labelmap_path", "/labelmap.txt")),
+2026-01-12 05:56:44.576821472        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-01-12 05:56:44.576832897    File "/opt/frigate/frigate/util/builtin.py", line 146, in load_labels
+2026-01-12 05:56:44.576875309      with open(path, "r", encoding=encoding) as f:
+2026-01-12 05:56:44.576930235           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-01-12 05:56:44.576944755  FileNotFoundError: [Errno 2] No such file or directory: '/config/model_cache/coco_91cl.txt'
+2026-01-12 05:56:44.983099775  [INFO] Service Frigate exited with code 1 (by signal 0)
+s6-rc: info: service legacy-services: stopping
+s6-rc: info: service legacy-services successfully stopped
+s6-rc: info: service go2rtc-healthcheck: stopping
+s6-rc: info: service certsync: stopping
+2026-01-12 05:56:44.990198616  [INFO] The go2rtc-healthcheck service exited with code 256 (by signal 15)
+s6-rc: info: service go2rtc-healthcheck successfully stopped
+2026-01-12 05:56:44.991087596  [INFO] Service CERTSYNC exited with code 256 (by signal 15)
+s6-rc: info: service certsync successfully stopped
+s6-rc: info: service nginx: stopping
+s6-rc: info: service certsync-log: stopping
+s6-rc: info: service certsync-log successfully stopped
+2026-01-12 05:56:45.018460940  [INFO] Service NGINX exited with code 0 (by signal 0)
+s6-rc: info: service nginx successfully stopped
+s6-rc: info: service nginx-log: stopping
+s6-rc: info: service frigate: stopping
+s6-rc: info: service frigate successfully stopped
+s6-rc: info: service go2rtc: stopping
+s6-rc: info: service frigate-log: stopping
+s6-rc: info: service nginx-log successfully stopped
+2026-01-12 05:56:45.020750963  exit with signal: terminated
+s6-rc: info: service frigate-log successfully stopped
+2026-01-12 05:56:45.024982902  [INFO] The go2rtc service exited with code 0 (by signal 0)
+s6-rc: info: service go2rtc successfully stopped
+s6-rc: info: service prepare: stopping
+s6-rc: info: service go2rtc-log: stopping
+s6-rc: info: service prepare successfully stopped
+s6-rc: info: service go2rtc-log successfully stopped
+s6-rc: info: service log-prepare: stopping
+s6-rc: info: service s6rc-fdholder: stopping
+s6-rc: info: service log-prepare successfully stopped
+s6-rc: info: service legacy-cont-init: stopping
+s6-rc: info: service s6rc-fdholder successfully stopped
+s6-rc: info: service legacy-cont-init successfully stopped
+s6-rc: info: service fix-attrs: stopping
+s6-rc: info: service fix-attrs successfully stopped
+s6-rc: info: service s6rc-oneshot-runner: stopping
+s6-rc: info: service s6rc-oneshot-runner successfully stopped
+.config/frigate [                                                            main * ] 5:56 AM

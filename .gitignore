@@ -1,0 +1,51 @@
+# 1. Deny everything by default
+/*
+
+# 2. Allow Git configuration
+!.gitignore
+!README.md
+
+# 3. GLOBAL IGNORES (Safety first)
+**/*.log
+**/*.db
+**/*.db-*
+**/.DS_Store
+**/node_modules/
+**/__pycache__/
+**/secrets.yaml
+
+# 4. SHELL & DEV TOOLS
+!zsh/
+zsh/.zsh_history
+!nvim/
+!alacritty/
+!docker/
+!tmux/
+!rofi/
+!warp-terminal/
+!.fnm/
+
+# 5. INFRASTRUCTURE
+!infrastructure/
+!samba/
+
+# 6. HOME AUTOMATION (Surgical Ignores)
+!frigate/
+frigate/storage/*
+frigate/cache/*
+frigate/faces/*
+frigate/model_cache/
+frigate/clips/
+frigate/recordings/
+
+!home-assistant/
+home-assistant/.storage/
+home-assistant/backups/
+home-assistant/tts/
+# Keep your yaml configs, ignore the databases
+home-assistant/*.db*
+
+# 7. JULES (The Vault)
+!jules/
+jules/.token
+jules/session.json

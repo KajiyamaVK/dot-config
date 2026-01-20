@@ -1,0 +1,16 @@
+alias: "Porteiro: Ao Receber Foto"
+description: "Dispara notificação quando a foto da campainha atualiza"
+mode: single
+trigger:
+  - platform: state
+    entity_id: event.videoporteiro_doorbell_picture
+
+action:
+  - service: rest_command.notificar_whatsapp_campainha
+  - action: script.notify_doorbell
+    data:
+      camera_entity: camera.videoporteiro
+      event_entity_picture: event.videoporteiro_doorbell_picture
+      notify_device: mobile_app_victor_mobile
+      title: "Ding Dong! 🔔"
+      message: "Alguém no portão (Foto recebida)."

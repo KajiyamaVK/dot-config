@@ -1,0 +1,78 @@
+# scripts.yaml
+
+notify_doorbell:
+  alias: "Doorbell Notification (Hybrid Cloud/Local)"
+  icon: mdi:bell-ring-outline
+  mode: restart
+  fields:
+    camera_entity:
+      description: "Camera entity for local snapshot"
+      example: camera.videoporteiro
+    event_entity_picture:
+      description: "Event entity containing the cloud URL"
+      example: event.videoporteiro_doorbell_picture
+    notify_device:
+      description: "Notification service (without 'notify.' prefix)"
+      example: mobile_app_iphone
+    title:
+      description: "Notification title"
+      example: "Campainha"
+    message:
+      description: "Notification message"
+      example: "Alguém no portão"
+  sequence:
+    # CORREÇÃO AQUI: Usamos wait_template em vez de wait_for_trigger
+    # Ele verifica se o evento da foto foi atualizado nos últimos 5 segundos
+    - wait_template: >-
+        {{ 
+          states[event_entity_picture].last_updated >= 
+          (now() - timedelta(seconds=5)) 
+        }}
+      timeout: "00:00:05"
+      continue_on_timeout: true
+
+    # 2. Logic: Cloud vs Local Fallback
+    - choose:
+        # SCENARIO A: Cloud Success (URL available in 'message' attribute)
+        - conditions:
+            - condition: template
+              value_template: >
+                {{ 
+                  states[event_entity_picture].last_updated >= 
+                  (now() - timedelta(seconds=10)) 
+                }}
+          sequence:
+            - action: notify.{{ notify_device }}
+              data:
+                title: "{{ title }}"
+                message: "{{ message }}"
+                data:
+                  # Pega a URL que vimos na sua imagem (ty-us-storage...)
+                  image: "{{ state_attr(event_entity_picture, 'message') }}"
+                  tag: "doorbell_ring"
+                  clickAction: "/lovelace/cameras"
+                  actions:
+                    - action: "URI"
+                      title: "Abrir Câmera" 
+                      uri: "/lovelace/cameras"
+
+      # SCENARIO B: Fallback (Timeout or Stale URL) -> Local Snapshot
+      default:
+        - action: camera.snapshot
+          target:
+            entity_id: "{{ camera_entity }}"
+          data:
+            filename: "/config/www/tmp/snapshot_doorbell.jpg"
+        
+        - action: notify.{{ notify_device }}
+          data:
+            title: "{{ title }} (Foto Local)"
+            message: "{{ message }}"
+            data:
+              image: "/local/tmp/snapshot_doorbell.jpg"
+              tag: "doorbell_ring"
+              clickAction: "/lovelace/cameras"
+              actions:
+                - action: "URI"
+                  title: "Abrir Câmera"
+                  uri: "/lovelace/cameras"

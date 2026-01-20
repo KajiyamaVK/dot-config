@@ -1,0 +1,197 @@
+mqtt:
+  enabled: false
+
+model:
+  # Define o caminho. O Frigate irá baixar este modelo automaticamente
+  # na primeira inicialização se ele não existir.
+  path: /config/model_cache/yolox_s.onnx
+  labelmap_path: /config/model_cache/coco_80cl.txt
+  model_type: yolox
+  width: 640
+  height: 640
+  input_tensor: nchw
+  input_pixel_format: bgr
+  input_dtype: float
+
+# -----------------------------------------------------------
+# DETECTOR
+# Usamos 'onnx' com device 'auto'. O container tensorrt
+# irá automaticamente mapear isso para a sua GPU NVIDIA.
+# -----------------------------------------------------------
+detectors:
+  nvidia:
+    type: onnx
+    device: auto
+
+# -----------------------------------------------------------
+# FACE RECOGNITION
+# Apenas ativado. Deixamos os padrões do sistema para evitar
+# erros de parâmetros desconhecidos.
+# -----------------------------------------------------------
+face_recognition:
+  enabled: true
+  model_size: large
+  min_area: 200     # Mínimo de pixels quadrados para tentar reconhecer (ajuste se rostos distantes não forem pegos) [5]
+  recognition_threshold: 0.6 # Confiança mínima para dizer que "é a pessoa" [4]
+  detection_threshold: 0.45   # Garante que ele detecte o rosto antes de tentar o match
+  unknown_score: 0.5
+
+# -----------------------------------------------------------
+# GLOBAL RECORD CONFIG
+# -----------------------------------------------------------
+
+record:
+  enabled: True
+  retain:
+    days: 3
+    mode: motion
+
+# -----------------------------------------------------------
+# STREAMS (go2rtc)
+# -----------------------------------------------------------
+go2rtc:
+  api:
+    listen: :1984
+  streams:
+    # --- CAM 13 ---
+    cam_13_h265:
+      - "rtsp://192.168.0.13:554/user=yxya_password=pZqLq3pd_channel=0_stream=0&onvif=0.sdp?real_stream&transport=tcp#audio=aac"
+    cam_13_sub:
+      - "rtsp://192.168.0.13:554/user=yxya_password=pZqLq3pd_channel=0_stream=1&onvif=0.sdp?real_stream&transport=tcp#video=h264#audio=aac"
+    cam_13:
+      - ffmpeg:cam_13_h265#video=h264#hardware=cuda
+
+    # --- CAM 21 ---
+    cam_21_h265:
+      - "rtsp://192.168.0.21:554/user=ntfk_password=Yf5n3LWd_channel=0_stream=0&onvif=0.sdp?real_stream&transport=tcp#audio=aac"
+    cam_21_sub:
+      - "rtsp://192.168.0.21:554/user=ntfk_password=Yf5n3LWd_channel=0_stream=1&onvif=0.sdp?real_stream&transport=tcp#video=h264#audio=aac"
+    # Mantenha o resto igual...
+    cam_21:
+      - ffmpeg:cam_21_h265#video=h264#hardware=cuda
+      
+
+    # --- CAM 19 ---
+    cam_19_h265:
+      - rtsp://192.168.0.19:554/user=admin_password=tlJwpbo6_channel=0_stream=0&onvif=0.sdp?real_stream&transport=tcp#audio=aac
+    cam_19_sub:
+      - rtsp://192.168.0.19:554/user=admin_password=tlJwpbo6_channel=0_stream=1&onvif=0.sdp?real_stream&transport=tcp#video=h264#audio=aac
+    cam_19:
+      - ffmpeg:cam_19_h265#video=h264#hardware=cuda
+
+# -----------------------------------------------------------
+# CÂMERAS
+# -----------------------------------------------------------
+cameras:
+  cam_13: #garagem
+    ffmpeg:
+      inputs:
+        - path: rtsp://127.0.0.1:8554/cam_13?video=copy
+          roles: [record]
+        - path: rtsp://127.0.0.1:8554/cam_13_sub?video=copy
+          roles: [detect]
+    detect:
+      enabled: true
+      width: 1280
+      height: 720
+      fps: 5
+    objects:
+      track:
+        - person
+        - car
+        - motorcycle
+        - bus
+        - truck
+        - cat
+        - dog
+        - bird
+      filters:
+        person:
+          threshold: 0.5 
+
+    notifications:
+      enabled: true
+    snapshots:
+      enabled: true
+    face_recognition:
+      enabled: true
+      
+    record: &active_objects_record
+      enabled: True
+      retain:
+        days: 7
+        mode: active_objects
+
+  cam_21: #sala
+    ffmpeg:
+      inputs:
+        - path: rtsp://127.0.0.1:8554/cam_21?video=copy
+          roles: [record]
+        - path: rtsp://127.0.0.1:8554/cam_21_sub?video=copy
+          roles: [detect]
+    detect:
+      enabled: true
+      width: 1280
+      height: 720
+      fps: 5
+    objects:
+      track:
+        - person
+      filters:
+        person:
+          threshold: 0.5 # Abaixe de 0.7 para 0.5 para garantir que ele te "enxergue"
+    snapshots:
+      enabled: true
+    face_recognition:
+      enabled: true
+
+    notifications:
+      enabled: true
+
+    record: *active_objects_record
+
+  cam_19: #quintal
+    ffmpeg:
+      inputs:
+        - path: rtsp://127.0.0.1:8554/cam_19?video=copy
+          roles: [record]
+        - path: rtsp://127.0.0.1:8554/cam_19_sub?video=copy
+          roles: [detect]
+    detect:
+      enabled: true
+      width: 1280
+      height: 720
+      fps: 5
+    objects:
+      track:
+        - person
+        - car
+        - motorcycle
+        - bus
+        - truck
+        - cat
+        - dog
+        - bird
+
+    notifications:
+      enabled: true
+
+    record: *active_objects_record
+
+snapshots:
+  enabled: true
+
+detect:
+  enabled: true
+version: 0.16-0
+semantic_search:
+  enabled: true
+  model_size: small
+lpr:
+  enabled: true
+classification:
+  bird:
+    enabled: false
+notifications:
+  enabled: true
+  email: victor.kajiyama@gmail.com

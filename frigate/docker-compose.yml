@@ -1,0 +1,31 @@
+services:
+  frigate:
+    container_name: frigate
+    privileged: true
+    restart: unless-stopped
+    # optimize for NVIDIA GPUs
+    image: ghcr.io/blakeblackshear/frigate:stable-tensorrt
+    shm_size: "1gb"
+    networks:
+      - proxy-net
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu, compute, video]
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./:/config             # Mapeia sua pasta local .config/frigate para o container
+      - ./storage:/media/frigate
+
+    ports:
+      - "5000:5000"       # UI do Frigate
+      - "1984:1984"       # API/UI do go2rtc 
+      - "8554:8554"       # Feeds RTSP
+      - "8555:8555/tcp"   # WebRTC
+      - "8555:8555/udp"   # WebRTC
+networks:
+  proxy-net:
+    external: true
