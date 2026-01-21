@@ -1,3 +1,7 @@
+# 1. IMMEDIATE GUARD - No text output for non-interactive shells
+[[ $- != *i* ]] && return
+
+# 2. Path check - prevent errors if paths differ
 ZSH_CONFIG_DIR="$HOME/.config/zsh"
 
 # fnm: ensure it's on PATH and initialize it before sourcing any config files
