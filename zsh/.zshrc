@@ -1,10 +1,26 @@
-# 1. IMMEDIATE GUARD - No text output for non-interactive shells
-[[ $- != *i* ]] && return
+# ==============================================================================
+# .zshrc - Centralized Configuration (~/.config/zsh/.zshrc)
+# Managed by: kajiyamavk | Synced via GitHub
+# ==============================================================================
 
-# 2. Path check - prevent errors if paths differ
+# --- 1. VS CODE REMOTE-SSH COMPATIBILITY ---
+# This guard prevents the shell from producing any output (stdout) for 
+# non-interactive sessions (like VS Code SSH or rsync). 
+# Without this, terminal output from tools like 'fnm' or 'nvm' during 
+# handshake can break the VS Code "AsyncPipe" connection.
+[[ $- != *i* ]] && return
+# ---------------------------------------------
+
+# --- 2. ENVIRONMENT & PATHS ---
+# Uses $HOME instead of hardcoded paths to support different usernames 
+# (vkajiyama on Work Ubuntu vs kajiyamavk on Homelab Mint).
 ZSH_CONFIG_DIR="$HOME/.config/zsh"
 
-# fnm: ensure it's on PATH and initialize it before sourcing any config files
+# Add local binaries to PATH
+export PATH="$HOME/.local/bin:$HOME/.console-ninja/.bin:$PATH"
+
+# --- 3. NODE VERSION MANAGERS ---
+# FNM: Fast Node Manager
 export FNM_DIR="$HOME/.local/share/fnm"
 if [ -d "$FNM_DIR" ]; then
   export PATH="$FNM_DIR:$PATH"
@@ -13,6 +29,12 @@ if [ -d "$FNM_DIR" ]; then
   fi
 fi
 
+# NVM: Node Version Manager (Fallback/Legacy)
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+# --- 4. MODULAR CONFIG SOURCING ---
 if [ -d "$ZSH_CONFIG_DIR" ]; then
   source "$ZSH_CONFIG_DIR/global.zsh"
   source "$ZSH_CONFIG_DIR/functions.zsh"
@@ -20,51 +42,49 @@ if [ -d "$ZSH_CONFIG_DIR" ]; then
   source "$ZSH_CONFIG_DIR/scripts.zsh"
 fi
 
-PATH=~/.console-ninja/.bin:$PATH
-# Add ~/.local/bin to PATH if it exists
-if [ -d "$HOME/.local/bin" ]; then
-  export PATH="$HOME/.local/bin:$PATH"
-fi
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# fzf shell integration
+# --- 5. SHELL TOOLS (FZF) ---
 if [[ "$OSTYPE" == "darwin"* ]]; then
   # macOS (Homebrew)
   source <(fzf --zsh)
 elif [[ -f /usr/share/doc/fzf/examples/key-bindings.zsh ]]; then
-  # Linux Mint / Debian / Ubuntu
+  # Linux (Ubuntu/Mint)
   source /usr/share/doc/fzf/examples/key-bindings.zsh
   source /usr/share/doc/fzf/examples/completion.zsh
 fi
 
-# --- WezTerm Integration ---
-
-# Function to send a variable to WezTerm via escape sequences
+# --- 6. WEZTERM INTEGRATION ---
+# Function to send variables to WezTerm for dynamic themes/tab titles
 wezterm_set_var() {
   local name=$1
-  # Encode value to base64 and strip newlines to ensure it reaches WezTerm cleanly
   local value=$(echo -n "$2" | base64 | tr -d '\n')
   printf "\033]1337;SetUserVar=%s=%s\007" "$name" "$value"
 }
 
-# Signal that this shell is the Homelab environment
-# This will trigger the theme change in your local WezTerm
-wezterm_set_var "is_homelab" "true"
+# MACHINE-SPECIFIC IDENTITY:
+# Only signal "is_homelab" if we are actually on the homelab host.
+# This prevents theme "sticking" on the Work laptop.
+if [[ "$(hostname)" == "homelab" ]]; then
+  wezterm_set_var "is_homelab" "true"
+else
+  wezterm_set_var "is_homelab" "false"
+fi
 
-# Optional: Reset the variable when logging out to prevent theme "sticking"
+# Reset variable on exit to clean up the WezTerm state
 alias exit='wezterm_set_var "is_homelab" "false"; exit'
 
-# Path to token (keeping it in .config but ignored by git)
-# Inside ~/.config/zsh/.zshrc
+# --- 7. API TOKENS & SECRETS ---
+# Keeping tokens in .config/jules but ensuring they are gitignored
 if [ -f "$HOME/.config/jules/.token" ]; then
     export JULES_API_KEY=$(tr -d '\n\r ' < "$HOME/.config/jules/.token")
     export JULES_TOKEN="$JULES_API_KEY"
 fi
 
-# zoxide: Must be the last line
+# --- 8. ZOXIDE (MUST BE LAST) ---
+# Smarter directory jumping (replaces 'cd')
 if command -v zoxide >/dev/null 2>&1; then
   eval "$(zoxide init zsh)"
 fi
+
+# ==============================================================================
+# End of .zshrc
+# ==============================================================================

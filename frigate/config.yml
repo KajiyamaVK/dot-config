@@ -1,6 +1,12 @@
 mqtt:
   enabled: false
 
+auth:
+  enabled: True
+
+tls:
+  enabled: false
+  
 model:
   # Define o caminho. O Frigate irá baixar este modelo automaticamente
   # na primeira inicialização se ele não existir.
@@ -45,9 +51,7 @@ record:
   retain:
     days: 3
     mode: motion
-  snapshots:
-    retain:
-      default: 5
+
 # -----------------------------------------------------------
 # STREAMS (go2rtc)
 # -----------------------------------------------------------
@@ -182,6 +186,8 @@ cameras:
 
 snapshots:
   enabled: true
+  retain:
+    default: 5
 
 detect:
   enabled: true

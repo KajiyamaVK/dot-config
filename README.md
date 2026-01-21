@@ -1,91 +1,76 @@
-# Dotfiles & Config Backup
+🛠️ Dotfiles & Config Backup
+This repository centralizes my development environment configurations within the ~/.config directory. It is designed to be machine-agnostic, supporting both my Work Ubuntu laptop (vkajiyama) and my Home Lab Linux Mint server (kajiyamavk).
 
-This repository serves as a backup for my personal Linux Mint development environment configurations. It uses a **whitelist strategy** to track only specific, critical configuration files directly in the `$HOME` directory, keeping the repository clean and focused.
+📁 Repository Structure
+Unlike the previous "Git-as-Home" strategy, this repository now lives at ~/.config/. Core shell files are symlinked to $HOME.
 
-## 🛠 Tracked Configurations
+Shell: Zsh (zsh/, .zshrc)
 
-The following services and tools are currently tracked:
+Automation/IoT: Frigate (frigate/), Home Assistant (home-assistant/)
 
-* **Shell:** Zsh (`.zshrc`, `.config/zsh/`)
-* **Editors:**
-    * Neovim (`.config/nvim/`)
-    * VS Code (`.config/Code/`)
-* **Terminals:**
-    * Alacritty (`.config/alacritty/`)
-    * Warp Terminal (`.config/warp-terminal/`)
-* **Launcher:** Rofi (`.config/rofi/`)
+Editors: Neovim (nvim/), VS Code (Code/ - metadata only)
 
-## 🚀 Restoration Guide (Fresh Install)
+Terminals: Alacritty (alacritty/), Warp (warp-terminal/)
 
-Since this repository is designed to be the `$HOME` directory itself, you cannot perform a standard `git clone` into a non-empty directory. Follow these steps to restore configurations on a new machine:
+Scripts: Private tokens (jules/ - gitignored)
 
-### 1. Initialize & Connect
-Open a terminal in your home directory:
+🚀 Restoration & Machine Setup
+Since configurations are shared across machines with different usernames, follow these steps for a clean setup:
 
-```bash
-cd ~
-git init
-git remote add origin <YOUR_REPO_URL>
-```
+1. The Entry Point (.zshenv)
+Zsh must be told where to look for its configuration. Create this file on the host machine:
 
-### 2. Fetch & Reset
-Fetch the contents and force the checkout to overwrite any default config files created by the OS installation:
+Bash
 
-```bash
-git fetch
-git checkout -f master
-```
+# ~/.zshenv
+# Points to the centralized repo regardless of the username
+export ZDOTDIR="$HOME/.config/zsh"
+2. Manual Symlinks
+For tools that do not natively support XDG_CONFIG_HOME, link them manually:
 
-> Note: The -f flag is required because some default files (like .zshrc) might already exist.
+Bash
 
-🧠 How It Works (The Whitelist Strategy)
-This repository relies on a specific .gitignore logic to avoid tracking the thousands of unrelated files in the home directory.
+ln -s "$HOME/.config/zsh/.zshrc" "$HOME/.zshrc"
+3. WezTerm Theme Integration
+The theme/identity logic is dynamic. It uses the is_homelab variable, which is set in .zshrc only if $(hostname) matches homelab.
+
+🏗️ Whitelist Strategy (.gitignore)
+To keep the repository clean, we ignore everything by default and explicitly allow the tools we want to track.
 
 Logic:
 
-1. **Ignore Everything:**  ```/*``` ignores the entire root.
+/* - Ignore everything.
 
-2. **Allow Config Folder:** ```!.config/``` allows entry into the config directory.
+!.config/ - Allow the config folder.
 
-3. **Ignore Config Contents:** ```.config/*``` ignores everything inside config by default.
+!.config/nvim/ - Allow specific apps.
 
-4. **Whitelist Apps:** Specific folders (e.g., ```!.config/nvim/```) are explicitly allowed.
+CRITICAL: The Code/ folder and .vscode-server/ are explicitly ignored to prevent recursive file-watcher loops that crash Remote-SSH connections.
 
-**Adding New Tools**
-To track a new tool (e.g., ```tmux```), edit ```.gitignore```:
+🔧 Troubleshooting & Lessons Learned
+2026-01-21: VS Code SSH Disconnection Loop
+Issue: VS Code SSH fails with AsyncPipeFailed or reverts to the local .config folder.
 
-1. Open ```.gitignore```.
+Cause 1 (Terminal Output): Tools like fnm or nvm printing text during handshake breaks the SSH pipe.
 
-2. Add the exception rule at the bottom:
+Cause 2 (Path Mismatch): Hardcoded home paths (e.g., /home/vkajiyama) failing on the server (/home/kajiyamavk).
 
-```Snippet de código
+Cause 3 (Watcher Loop): VS Code trying to index its own ~/.config/Code directory.
 
-!.config/tmux/
-```
-3. Add the files:
+Solutions implemented in this repo:
 
-```Bash
+Stdout Guard: Added [[ $- != *i* ]] && return to the top of .zshrc.
 
-git add .config/tmux/
-git commit -m "Add tmux config"
-```
+Dynamic Paths: Used $HOME or $(hostname) in all scripts instead of hardcoded strings.
 
-### 📦 Requirements
-Ensure the following packages are installed on the fresh system for these configs to work correctly:
+Exclusions: Added Code/ and .vscode-server/ to .gitignore and VS Code files.watcherExclude.
 
-```Bash
+Rofi (Combined Mode)
+Ensure keyboard shortcuts use rofi -show combi to see both applications and open windows, as defined in .config/rofi/config.rasi.
 
-# Linux Mint / Ubuntu
+📦 Essential Packages
+Bash
+
+# Ubuntu / Linux Mint
 sudo apt-get update
-sudo apt-get install zsh neovim alacritty rofi git
-```
-
-## 🔧 Configuration Tips (Troubleshooting)
-
-### Rofi (App Launcher & Window Switcher)
-My Rofi configuration (`.config/rofi/config.rasi`) utilizes `combi` mode to mix applications and open windows.
-
-* **Issue:** If Rofi shows only applications and not your open windows.
-* **Solution:** Check the command associated with your global keyboard shortcut (e.g., `Super` or `Ctrl+Space`).
-    * ❌ **Incorrect:** `rofi -show drun` (Opens only the app launcher).
-    * ✅ **Correct:** `rofi -show combi` (Opens the combined mode defined in the config).
+sudo apt-get install zsh neovim alacritty rofi fzf zoxide git

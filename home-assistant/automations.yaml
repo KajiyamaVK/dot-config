@@ -1,16 +1,44 @@
-alias: "Porteiro: Ao Receber Foto"
-description: "Dispara notificação quando a foto da campainha atualiza"
-mode: single
-trigger:
-  - platform: state
-    entity_id: event.videoporteiro_doorbell_picture
+# --- DOORBELL & SECURITY AUTOMATIONS ---
 
-action:
-  - service: rest_command.notificar_whatsapp_campainha
-  - action: script.notify_doorbell
-    data:
-      camera_entity: camera.videoporteiro
-      event_entity_picture: event.videoporteiro_doorbell_picture
-      notify_device: mobile_app_victor_mobile
-      title: "Ding Dong! 🔔"
-      message: "Alguém no portão (Foto recebida)."
+- id: 'doorbell_frigate_snapshot'
+  alias: "Campainha - Snapshot Frigate ao Tocar"
+  description: "Captura foto da câmera do Frigate quando a campainha Intelbras é acionada"
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.tuya_doorbell_button
+      from: "off"
+      to: "on"
+  action:
+    - vars:
+        snapshot_path: "/config/www/snapshots/doorbell_{{ now().strftime('%Y%m%d_%H%M%S') }}.jpg"
+    
+    - service: camera.snapshot
+      target:
+        entity_id: camera.frigate_front_door
+      data:
+        filename: "{{ snapshot_path }}"
+
+    - service: notify.mobile_app_victor_mobile
+      data:
+        title: "Alguém na porta!"
+        message: "A campainha foi tocada às {{ now().strftime('%H:%M') }}."
+        data:
+          image: "/local/snapshots/{{ snapshot_path.split('/')[-1] }}"
+          clickAction: "/lovelace/cameras"
+
+- id: 'porteiro_whatsapp_notification'
+  alias: "Porteiro: Ao Receber Foto"
+  description: "Dispara notificação WhatsApp via my-agents-api quando a foto da campainha atualiza"
+  mode: single
+  trigger:
+    - platform: state
+      entity_id: event.videoporteiro_doorbell_picture
+  action:
+    - service: rest_command.notificar_whatsapp_campainha
+    - service: script.notify_doorbell
+      data:
+        camera_entity: camera.videoporteiro
+        event_entity_picture: event.videoporteiro_doorbell_picture
+        notify_device: mobile_app_victor_mobile
+        title: "Ding Dong! 🔔"
+        message: "Alguém no portão (Foto recebida)."

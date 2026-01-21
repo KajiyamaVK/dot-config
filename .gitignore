@@ -1,11 +1,15 @@
-# 1. Deny everything by default
+# ==============================================================================
+# .gitignore - Whitelist Strategy for ~/.config
+# ==============================================================================
+
+# 1. DENY EVERYTHING BY DEFAULT
 /*
 
-# 2. Allow Git configuration
+# 2. ALLOW REPO METADATA
 !.gitignore
 !README.md
 
-# 3. GLOBAL IGNORES (Safety first)
+# 3. GLOBAL EXCLUSIONS (Safety & Noise)
 **/*.log
 **/*.db
 **/*.db-*
@@ -13,6 +17,8 @@
 **/node_modules/
 **/__pycache__/
 **/secrets.yaml
+**/.vscode-server/
+**/.ssh/
 
 # 4. SHELL & DEV TOOLS
 !zsh/
@@ -25,11 +31,14 @@ zsh/.zsh_history
 !warp-terminal/
 !.fnm/
 
-# 5. INFRASTRUCTURE
+# 5. INFRASTRUCTURE & SCRIPTS
 !infrastructure/
 !samba/
+!jules/
+jules/.token
+jules/session.json
 
-# 6. HOME AUTOMATION (Surgical Ignores)
+# 6. HOME AUTOMATION (Surgical Logic)
 !frigate/
 frigate/storage/*
 frigate/cache/*
@@ -42,10 +51,16 @@ frigate/recordings/
 home-assistant/.storage/
 home-assistant/backups/
 home-assistant/tts/
-# Keep your yaml configs, ignore the databases
 home-assistant/*.db*
 
-# 7. JULES (The Vault)
-!jules/
-jules/.token
-jules/session.json
+# 7. VS CODE SSH & BROWSER PROTECTION
+# These are kept strictly out of Git to prevent watcher loops and 
+# AsyncPipe crashes during Remote-SSH sessions.
+Code/
+.vscode-server/
+google-chrome/
+chromium/
+discord/
+Postman/
+
+zsh/.zcompdump*
