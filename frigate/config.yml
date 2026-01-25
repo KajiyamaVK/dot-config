@@ -79,9 +79,9 @@ go2rtc:
 
     # --- CAM 19 ---
     cam_19_h265:
-      - rtsp://192.168.0.19:554/user=admin_password=tlJwpbo6_channel=0_stream=0&onvif=0.sdp?real_stream&transport=tcp#audio=aac
+      - "rtsp://192.168.0.19:554/user=atee_password=SqyAlom5_channel=0_stream=0&onvif=0.sdp?real_stream&transport=tcp#audio=aac"
     cam_19_sub:
-      - rtsp://192.168.0.19:554/user=admin_password=tlJwpbo6_channel=0_stream=1&onvif=0.sdp?real_stream&transport=tcp#video=h264#audio=aac
+      - "rtsp://192.168.0.19:554/user=atee_password=SqyAlom5_channel=0_stream=1&onvif=0.sdp?real_stream&transport=tcp#video=h264#audio=aac"
     cam_19:
       - ffmpeg:cam_19_h265#video=h264#hardware=cuda
 
