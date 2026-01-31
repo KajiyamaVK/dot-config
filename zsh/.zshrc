@@ -85,6 +85,9 @@ if command -v zoxide >/dev/null 2>&1; then
   eval "$(zoxide init zsh)"
 fi
 
+# --- Flutter
+export PATH="$HOME/development/flutter/bin:$PATH"
+
 # ==============================================================================
 # End of .zshrc
-# ==============================================================================
+# ==============================================================================export PATH="$HOME/src/flutter/bin:$PATH"
