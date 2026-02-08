@@ -92,7 +92,7 @@ cameras:
   cam_13: #garagem
     ffmpeg:
       inputs:
-        - path: rtsp://127.0.0.1:8554/cam_13?video=copy
+        - path: rtsp://127.0.0.1:8554/cam_13_h265?video=copy
           roles: [record]
         - path: rtsp://127.0.0.1:8554/cam_13_sub?video=copy
           roles: [detect]
@@ -101,6 +101,9 @@ cameras:
       width: 1280
       height: 720
       fps: 5
+    motion:
+      threshold: 30
+      contour_area: 100
     objects:
       track:
         - person
@@ -122,11 +125,11 @@ cameras:
     face_recognition:
       enabled: true
       
-    record: &active_objects_record
+    record:
       enabled: True
       retain:
-        days: 7
-        mode: active_objects
+        days: 3
+        mode: motion
 
   cam_21: #sala
     ffmpeg:
@@ -140,6 +143,9 @@ cameras:
       width: 1280
       height: 720
       fps: 5
+    motion:
+      threshold: 30
+      contour_area: 100
     objects:
       track:
         - person
@@ -154,7 +160,11 @@ cameras:
     notifications:
       enabled: true
 
-    record: *active_objects_record
+    record:
+      enabled: True
+      retain:
+        days: 3
+        mode: motion
 
   cam_19: #quintal
     ffmpeg:
@@ -168,6 +178,9 @@ cameras:
       width: 1280
       height: 720
       fps: 5
+    motion:
+      threshold: 30
+      contour_area: 100
     objects:
       track:
         - person
@@ -182,7 +195,11 @@ cameras:
     notifications:
       enabled: true
 
-    record: *active_objects_record
+    record:
+        enabled: True
+        retain:
+          days: 3
+          mode: motion
 
 snapshots:
   enabled: true

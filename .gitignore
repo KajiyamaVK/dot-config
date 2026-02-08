@@ -68,3 +68,5 @@ zsh/.zcompdump*
 # AI AGENT
 !gemini/
 !GEMINI.md
+!DOMAINS.md
+!postgres-postgis/

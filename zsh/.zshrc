@@ -1,3 +1,4 @@
+DISABLE_AUTO_TITLE="true"
 # ==============================================================================
 # .zshrc - Centralized Configuration (~/.config/zsh/.zshrc)
 # Managed by: kajiyamavk | Synced via GitHub
@@ -64,13 +65,10 @@ wezterm_set_var() {
 # Only signal "is_homelab" if we are actually on the homelab host.
 # This prevents theme "sticking" on the Work laptop.
 if [[ "$(hostname)" == "homelab" ]]; then
-  wezterm_set_var "is_homelab" "true"
-else
-  wezterm_set_var "is_homelab" "false"
+# # else
 fi
 
 # Reset variable on exit to clean up the WezTerm state
-alias exit='wezterm_set_var "is_homelab" "false"; exit'
 
 # --- 7. API TOKENS & SECRETS ---
 # Keeping tokens in .config/jules but ensuring they are gitignored
@@ -84,10 +82,11 @@ fi
 if command -v zoxide >/dev/null 2>&1; then
   eval "$(zoxide init zsh)"
 fi
-
+# 
 # --- Flutter
 export PATH="$HOME/development/flutter/bin:$PATH"
 
 # ==============================================================================
 # End of .zshrc
 # ==============================================================================export PATH="$HOME/src/flutter/bin:$PATH"
+precmd() { print -Pn "]2;%n@%m: %~" }

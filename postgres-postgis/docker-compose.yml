@@ -1,0 +1,27 @@
+services:
+  postgres:
+    image: postgis/postgis:16-3.4
+    container_name: postgres-postgis
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - ./data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    networks:
+      - proxy-net
+    ports:
+      - "5432:5432"
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - ./pgadmin-data:/var/lib/pgadmin
+    networks:
+      - proxy-net
+
+networks:
+  proxy-net:
+    external: true

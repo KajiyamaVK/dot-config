@@ -1,0 +1,9 @@
+#!/bin/bash
+set -e
+
+psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
+    CREATE USER system WITH PASSWORD 'SystemPass_9b28s1@';
+    CREATE USER kajiyamavk WITH PASSWORD 'KajiPass_5v1123#' SUPERUSER;
+    GRANT ALL PRIVILEGES ON DATABASE "$POSTGRES_DB" TO system;
+    GRANT ALL PRIVILEGES ON DATABASE "$POSTGRES_DB" TO kajiyamavk;
+EOSQL
