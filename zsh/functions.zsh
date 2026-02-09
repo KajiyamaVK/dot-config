@@ -329,3 +329,8 @@ function updateBranches() { #Alias ub
 
 
 
+
+# Database connection shortcut
+function db() { #Alias db
+  pgcli -h localhost -U admin -d my_agents_db "$@"
+}
