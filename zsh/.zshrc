@@ -90,3 +90,7 @@ export PATH="$HOME/development/flutter/bin:$PATH"
 # End of .zshrc
 # ==============================================================================export PATH="$HOME/src/flutter/bin:$PATH"
 precmd() { print -Pn "]2;%n@%m: %~" }
+export OPENCLAW_STATE_DIR="$HOME/.config/openclaw"
+
+# OpenClaw Completion
+source "/home/kajiyamavk/.config/openclaw/completions/openclaw.zsh"
