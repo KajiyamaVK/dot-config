@@ -2,11 +2,11 @@ mqtt:
   enabled: false
 
 auth:
-  enabled: True
+  enabled: true
 
 tls:
   enabled: false
-  
+
 model:
   # Define o caminho. O Frigate irá baixar este modelo automaticamente
   # na primeira inicialização se ele não existir.
@@ -47,7 +47,7 @@ face_recognition:
 # -----------------------------------------------------------
 
 record:
-  enabled: True
+  enabled: true
   retain:
     days: 3
     mode: motion
@@ -61,29 +61,35 @@ go2rtc:
   streams:
     # --- CAM 13 ---
     cam_13_h265:
-      - "rtsp://192.168.0.13:554/user=yxya_password=pZqLq3pd_channel=0_stream=0&onvif=0.sdp?real_stream&transport=tcp#audio=aac"
+      - rtsp://192.168.0.13:554/user=yxya_password=pZqLq3pd_channel=0_stream=0&onvif=0.sdp?real_stream&transport=tcp#audio=aac
     cam_13_sub:
-      - "rtsp://192.168.0.13:554/user=yxya_password=pZqLq3pd_channel=0_stream=1&onvif=0.sdp?real_stream&transport=tcp#video=h264#audio=aac"
+      - rtsp://192.168.0.13:554/user=yxya_password=pZqLq3pd_channel=0_stream=1&onvif=0.sdp?real_stream&transport=tcp#video=h264#audio=aac
     cam_13:
       - ffmpeg:cam_13_h265#video=h264#hardware=cuda
 
     # --- CAM 21 ---
     cam_21_h265:
-      - "rtsp://192.168.0.21:554/user=ntfk_password=Yf5n3LWd_channel=0_stream=0&onvif=0.sdp?real_stream&transport=tcp#audio=aac"
+      - rtsp://192.168.0.21:554/user=ntfk_password=Yf5n3LWd_channel=0_stream=0&onvif=0.sdp?real_stream&transport=tcp#audio=aac
     cam_21_sub:
-      - "rtsp://192.168.0.21:554/user=ntfk_password=Yf5n3LWd_channel=0_stream=1&onvif=0.sdp?real_stream&transport=tcp#video=h264#audio=aac"
+      - rtsp://192.168.0.21:554/user=ntfk_password=Yf5n3LWd_channel=0_stream=1&onvif=0.sdp?real_stream&transport=tcp#video=h264#audio=aac
     # Mantenha o resto igual...
     cam_21:
       - ffmpeg:cam_21_h265#video=h264#hardware=cuda
-      
+
 
     # --- CAM 19 ---
     cam_19_h265:
-      - "rtsp://192.168.0.19:554/user=atee_password=SqyAlom5_channel=0_stream=0&onvif=0.sdp?real_stream&transport=tcp#audio=aac"
+      - rtsp://192.168.0.19:554/user=atee_password=SqyAlom5_channel=0_stream=0&onvif=0.sdp?real_stream&transport=tcp#audio=aac
     cam_19_sub:
-      - "rtsp://192.168.0.19:554/user=atee_password=SqyAlom5_channel=0_stream=1&onvif=0.sdp?real_stream&transport=tcp#video=h264#audio=aac"
+      - rtsp://192.168.0.19:554/user=atee_password=SqyAlom5_channel=0_stream=1&onvif=0.sdp?real_stream&transport=tcp#video=h264#audio=aac
     cam_19:
       - ffmpeg:cam_19_h265#video=h264#hardware=cuda
+
+    # --- BABY CAM ---
+    baby_cam_h265:
+      - rtsp://babyCam:O%24kq4AIFF%24FLA%24@192.168.0.34:554/stream1
+    baby_cam_sub:
+      - rtsp://babyCam:O%24kq4AIFF%24FLA%24@192.168.0.34:554/stream2
 
 # -----------------------------------------------------------
 # CÂMERAS
@@ -116,7 +122,7 @@ cameras:
         - bird
       filters:
         person:
-          threshold: 0.5 
+          threshold: 0.5
 
     notifications:
       enabled: true
@@ -124,9 +130,9 @@ cameras:
       enabled: true
     face_recognition:
       enabled: true
-      
+
     record:
-      enabled: True
+      enabled: true
       retain:
         days: 3
         mode: motion
@@ -161,7 +167,7 @@ cameras:
       enabled: true
 
     record:
-      enabled: True
+      enabled: true
       retain:
         days: 3
         mode: motion
@@ -196,10 +202,40 @@ cameras:
       enabled: true
 
     record:
-        enabled: True
-        retain:
-          days: 3
-          mode: motion
+      enabled: true
+      retain:
+        days: 3
+        mode: motion
+
+  baby_cam: # TAPO Camera
+    ffmpeg:
+      inputs:
+        - path: rtsp://127.0.0.1:8554/baby_cam_h265?video=copy
+          roles: [record]
+        - path: rtsp://127.0.0.1:8554/baby_cam_sub?video=copy
+          roles: [detect]
+    detect:
+      enabled: true
+      width: 1280
+      height: 720
+      fps: 5
+    motion:
+      threshold: 30
+      contour_area: 100
+    objects:
+      track:
+        - person
+        - cat
+        - dog
+
+    notifications:
+      enabled: true
+
+    record:
+      enabled: true
+      retain:
+        days: 3
+        mode: motion
 
 snapshots:
   enabled: true
@@ -220,3 +256,12 @@ classification:
 notifications:
   enabled: true
   email: victor.kajiyama@gmail.com
+camera_groups:
+  Todas_as_câmeras:
+    order: 1
+    icon: LuAlarmClockOff
+    cameras:
+      - cam_13
+      - cam_21
+      - cam_19
+      - baby_cam
