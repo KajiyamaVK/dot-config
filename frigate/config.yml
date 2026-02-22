@@ -90,7 +90,8 @@ go2rtc:
       - rtsp://babyCam:O%24kq4AIFF%24FLA%24@192.168.0.34:554/stream1
     baby_cam_sub:
       - rtsp://babyCam:O%24kq4AIFF%24FLA%24@192.168.0.34:554/stream2
-
+    baby_cam:
+      - ffmpeg:baby_cam_h265#video=h264#hardware=cuda
 # -----------------------------------------------------------
 # CÂMERAS
 # -----------------------------------------------------------
