@@ -14,11 +14,17 @@ fi
 
 # 2. Check PostGIS Extension
 echo "Checking PostGIS extension..."
-docker exec postgres-postgis psql -U admin -d my_agents_db -c "SELECT PostGIS_Full_Version();"
+for DB in family family_dev; do
+    echo "Checking $DB..."
+    docker exec postgres-postgis psql -U admin -d "$DB" -c "SELECT PostGIS_Full_Version();"
+done
 
 # 3. Check Users
 echo "Checking Clean Users..."
-docker exec postgres-postgis psql -U admin -d my_agents_db -c "SELECT usename FROM pg_user WHERE usename IN ('system', 'kajiyamavk');"
+for DB in family family_dev; do
+    echo "Checking $DB..."
+    docker exec postgres-postgis psql -U admin -d "$DB" -c "SELECT usename FROM pg_user WHERE usename IN ('system', 'kajiyamavk');"
+done
 
 # 4. Check Nginx Proxy (PgAdmin)
 echo "Checking PgAdmin access via Nginx..."

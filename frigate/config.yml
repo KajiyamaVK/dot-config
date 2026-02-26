@@ -58,6 +58,11 @@ record:
 go2rtc:
   api:
     listen: :1984
+  webrtc:
+    # REQUIRED for reverse proxy/Cloudflare setups
+    candidates:
+      - cams.kajiyama.com.br:443
+      - stun:8555
   streams:
     # --- CAM 13 ---
     cam_13_h265:
@@ -65,6 +70,8 @@ go2rtc:
     cam_13_sub:
       - rtsp://192.168.0.13:554/user=yxya_password=pZqLq3pd_channel=0_stream=1&onvif=0.sdp?real_stream&transport=tcp#video=h264#audio=aac
     cam_13:
+      # Use ONVIF for backchannel. 8000 is common; check your camera if it differs.
+      - onvif://yxya:pZqLq3pd@192.168.0.13:8000
       - ffmpeg:cam_13_h265#video=h264#hardware=cuda
       - ffmpeg:cam_13_h265#audio=opus
 
@@ -73,8 +80,8 @@ go2rtc:
       - rtsp://192.168.0.21:554/user=ntfk_password=Yf5n3LWd_channel=0_stream=0&onvif=0.sdp?real_stream&transport=tcp#audio=aac
     cam_21_sub:
       - rtsp://192.168.0.21:554/user=ntfk_password=Yf5n3LWd_channel=0_stream=1&onvif=0.sdp?real_stream&transport=tcp#video=h264#audio=aac
-    # Mantenha o resto igual...
     cam_21:
+      - onvif://ntfk:Yf5n3LWd@192.168.0.21:8000
       - ffmpeg:cam_21_h265#video=h264#hardware=cuda
       - ffmpeg:cam_21_h265#audio=opus
 
@@ -84,17 +91,21 @@ go2rtc:
     cam_19_sub:
       - rtsp://192.168.0.19:554/user=atee_password=SqyAlom5_channel=0_stream=1&onvif=0.sdp?real_stream&transport=tcp#video=h264#audio=aac
     cam_19:
+      - onvif://atee:SqyAlom5@192.168.0.19:8000
       - ffmpeg:cam_19_h265#video=h264#hardware=cuda
       - ffmpeg:cam_19_h265#audio=opus
 
-    # --- BABY CAM ---
+    # --- BABY CAM (Tapo) ---
     baby_cam_h265:
       - rtsp://babyCam:O%24kq4AIFF%24FLA%24@192.168.0.34:554/stream1
     baby_cam_sub:
       - rtsp://babyCam:O%24kq4AIFF%24FLA%24@192.168.0.34:554/stream2
     baby_cam:
+      # Tapo cameras use port 2020 for ONVIF
+      - onvif://babyCam:O%24kq4AIFF%24FLA%24@192.168.0.34:2020
       - ffmpeg:baby_cam_h265#video=h264#hardware=cuda
       - ffmpeg:baby_cam_h265#audio=opus
+
 # -----------------------------------------------------------
 # CÂMERAS
 # -----------------------------------------------------------
