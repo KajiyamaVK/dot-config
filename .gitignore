@@ -46,12 +46,15 @@ frigate/faces/*
 frigate/model_cache/
 frigate/clips/
 frigate/recordings/
+frigate/.vacuum
 
 !home-assistant/
 home-assistant/.storage/
 home-assistant/backups/
 home-assistant/tts/
 home-assistant/*.db*
+home-assistant/.ha_run.lock
+home-assistant/*.log*
 
 # 7. VS CODE SSH & BROWSER PROTECTION
 # These are kept strictly out of Git to prevent watcher loops and 
