@@ -66,32 +66,32 @@ go2rtc:
   streams:
     # --- CAM 13 ---
     cam_13_h265:
-      - rtsp://192.168.0.13:554/user=yxya_password=pZqLq3pd_channel=0_stream=0&onvif=0.sdp?real_stream&transport=tcp#audio=aac
+      - rtsp://192.168.0.13:554/user=admin_password=tlJwpbo6_channel=0_stream=0&onvif=0.sdp?real_stream&transport=tcp#audio=aac
     cam_13_sub:
-      - rtsp://192.168.0.13:554/user=yxya_password=pZqLq3pd_channel=0_stream=1&onvif=0.sdp?real_stream&transport=tcp#video=h264#audio=aac
+      - rtsp://192.168.0.13:554/user=admin_password=tlJwpbo6_channel=0_stream=1&onvif=0.sdp?real_stream&transport=tcp#video=h264#audio=aac
     cam_13:
       # Use ONVIF for backchannel. 8000 is common; check your camera if it differs.
-      - onvif://yxya:pZqLq3pd@192.168.0.13:8000
+      - onvif://admin:tlJwpbo6@192.168.0.13:8899
       - ffmpeg:cam_13_h265#video=h264#hardware=cuda
       - ffmpeg:cam_13_h265#audio=opus
 
     # --- CAM 21 ---
     cam_21_h265:
-      - rtsp://192.168.0.21:554/user=ntfk_password=Yf5n3LWd_channel=0_stream=0&onvif=0.sdp?real_stream&transport=tcp#audio=aac
+      - rtsp://192.168.0.21:554/user=admin_password=tlJwpbo6_channel=0_stream=0&onvif=0.sdp?real_stream&transport=tcp#audio=aac
     cam_21_sub:
-      - rtsp://192.168.0.21:554/user=ntfk_password=Yf5n3LWd_channel=0_stream=1&onvif=0.sdp?real_stream&transport=tcp#video=h264#audio=aac
+      - rtsp://192.168.0.21:554/user=admin_password=tlJwpbo6_channel=0_stream=1&onvif=0.sdp?real_stream&transport=tcp#video=h264#audio=aac
     cam_21:
-      - onvif://ntfk:Yf5n3LWd@192.168.0.21:8000
+      - onvif://admin:tlJwpbo6@192.168.0.21:8899
       - ffmpeg:cam_21_h265#video=h264#hardware=cuda
       - ffmpeg:cam_21_h265#audio=opus
 
     # --- CAM 19 ---
     cam_19_h265:
-      - rtsp://192.168.0.19:554/user=atee_password=SqyAlom5_channel=0_stream=0&onvif=0.sdp?real_stream&transport=tcp#audio=aac
+      - rtsp://192.168.0.19:554/user=admin_password=tlJwpbo6_channel=0_stream=0&onvif=0.sdp?real_stream&transport=tcp#audio=aac
     cam_19_sub:
-      - rtsp://192.168.0.19:554/user=atee_password=SqyAlom5_channel=0_stream=1&onvif=0.sdp?real_stream&transport=tcp#video=h264#audio=aac
+      - rtsp://192.168.0.19:554/user=admin_password=tlJwpbo6_channel=0_stream=1&onvif=0.sdp?real_stream&transport=tcp#video=h264#audio=aac
     cam_19:
-      - onvif://atee:SqyAlom5@192.168.0.19:8000
+      - onvif://admin:tlJwpbo6@192.168.0.19:8899
       - ffmpeg:cam_19_h265#video=h264#hardware=cuda
       - ffmpeg:cam_19_h265#audio=opus
 
@@ -272,11 +272,9 @@ notifications:
   enabled: true
   email: victor.kajiyama@gmail.com
 camera_groups:
-  Todas_as_câmeras:
+  No_one_is_home:
     order: 1
-    icon: LuAlarmClockOff
+    icon: LuBrackets
     cameras:
       - cam_13
-      - cam_21
       - cam_19
-      - baby_cam
