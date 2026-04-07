@@ -72,4 +72,4 @@ zsh/.zcompdump*
 !gemini/
 !GEMINI.md
 !DOMAINS.md
-!postgres-postgis/
+!postgres-postgis/frigate/
